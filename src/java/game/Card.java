@@ -7,10 +7,15 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
 /**
  *
  * @author kepoly
  */
+@ManagedBean
+@SessionScoped
 public class Card {
     
     public String value;

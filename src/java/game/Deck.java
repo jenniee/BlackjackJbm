@@ -7,11 +7,15 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author kepoly
  */
+@ManagedBean
+@SessionScoped
 public class Deck {
     
     public List<Card> clubs = new ArrayList<>();
@@ -25,8 +29,6 @@ public class Deck {
         this.hearts = new Suit("Hearts").buildSuits();
         this.spades = new Suit("Spades").buildSuits();
     }
-
-    
     public List getNewDeck() {
         List<Card> deck = new ArrayList<>();
         deck.addAll(clubs);

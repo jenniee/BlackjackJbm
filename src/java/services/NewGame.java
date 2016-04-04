@@ -24,14 +24,25 @@ import javax.ws.rs.Produces;
  */
 @Path("/newGame")
 @SessionScoped
-@ManagedBean(name="game")
+@ManagedBean
 public class NewGame {
     
     @GET
     @Produces("application/json")
+        /*
+        * This will be a void method
+        * for testing puroposes we are returning some data.
+        */
     public String newGame() {
 
         Controller control = new Controller();
+        
+        /*
+        * We would like the be able to initialize the below functions
+        * in the controller class(noproblem) but then persist the instance in the
+        * users session so refreshing the page doesn't start a new game.
+        */
+
         Deck newdeck = new Deck();
         List ddeck = newdeck.getNewDeck();
 
@@ -50,18 +61,7 @@ public class NewGame {
         dealer.takeCardFromDeck(ddeck, 1);
 
         List playerHand = player.returnHandArray(Boolean.TRUE);
-        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
-        System.out.println(playerHand);
-        System.out.println(player.toString());
-        System.out.println("--------------");
-        System.out.println(dealerHand);
-        System.out.println(dealer.toString());
-        System.out.println("--------------");
-        System.out.println(ddeck);
-        System.out.println("--------------");
-        System.out.println(control.returnTotal(playerHand, Boolean.TRUE));
-        System.out.println(control.returnTotal(dealerHand, Boolean.FALSE));
-        
+        List dealerHand = dealer.returnHandArray(Boolean.FALSE);        
         return player.toString();
        
     }

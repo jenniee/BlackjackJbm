@@ -154,6 +154,10 @@ public class Controller {
      */
     public static void main(String[] args) {
         
+        /*
+        * Testing purposes only.
+        */
+        
         Controller control = new Controller();
         
         Deck newdeck = new Deck();
