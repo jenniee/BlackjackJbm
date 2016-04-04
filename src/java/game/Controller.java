@@ -17,6 +17,20 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
  */
 public class Controller {
     
+    private double minBet = 1;
+    private double maxBet = 1000;
+    private double balance = 0;
+    private double playerBet = minBet;
+
+    private double previousWin = 0;
+    private String option = "";
+    private Boolean hasPaidOut = false;
+    
+    private List finaldeck;
+    
+    public Hand player;
+    public Hand dealer;
+    
     public Controller()
     {
         
@@ -46,22 +60,6 @@ public class Controller {
         dealer.takeCardFromDeck(ddeck, 1);
         
     }
-
-    private double minBet = 1;
-    private double maxBet = 1000;
-    private double balance = 0;
-    private double playerBet = minBet;
-
-    private double previousWin = 0;
-    private String option = "";
-    private Boolean hasPaidOut = false;
-    
-    private List finaldeck;
-    
-    public Hand player;
-    public Hand dealer;
-    
-
     public List getFinaldeck() {
         return finaldeck;
     }
