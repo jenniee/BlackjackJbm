@@ -16,6 +16,36 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
  * @author kepoly
  */
 public class Controller {
+    
+    public Controller()
+    {
+        
+    }
+    
+    public Controller(String name, Double balance) {
+        
+        List playerdummy = new ArrayList<>();
+        List dealerdummy = new ArrayList<>();
+        
+        this.balance = balance;
+        this.hasPaidOut = false;
+        this.option = "";
+        this.player = new Hand(name, playerdummy);
+        this.dealer = new Hand("Dealer", dealerdummy);
+        
+        Deck newdeck = new Deck();
+        List ddeck = newdeck.getNewDeck();
+
+        long seed = System.nanoTime();
+        Collections.shuffle(ddeck, new Random(seed));
+        this.finaldeck = ddeck;
+        
+        player.takeCardFromDeck(ddeck, 1);
+        dealer.takeCardFromDeck(ddeck, 1);
+        player.takeCardFromDeck(ddeck, 1);
+        dealer.takeCardFromDeck(ddeck, 1);
+        
+    }
 
     private double minBet = 1;
     private double maxBet = 1000;
@@ -25,7 +55,12 @@ public class Controller {
     private double previousWin = 0;
     private String option = "";
     private Boolean hasPaidOut = false;
+    
     private List finaldeck;
+    
+    public Hand player;
+    public Hand dealer;
+    
 
     public List getFinaldeck() {
         return finaldeck;
