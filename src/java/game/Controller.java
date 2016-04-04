@@ -5,11 +5,12 @@
  */
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
@@ -18,7 +19,7 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
  * @author kepoly
  */
 @SessionScoped
-public class Controller {
+public class Controller implements Serializable{
     
     private double minBet = 1;
     private double maxBet = 1000;
@@ -31,8 +32,8 @@ public class Controller {
     
     private List finaldeck;
     
-    public Hand player;
-    public Hand dealer;
+    private Hand player;
+    private Hand dealer;
     
     public Controller()
     {
@@ -236,6 +237,22 @@ public class Controller {
         System.out.println(control.returnTotal(dealerHand, Boolean.FALSE));
 
         
+    }
+
+    public Hand getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Hand player) {
+        this.player = player;
+    }
+
+    public Hand getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Hand dealer) {
+        this.dealer = dealer;
     }
 
 }

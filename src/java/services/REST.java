@@ -5,7 +5,8 @@
  */
 package services;
 
-import javax.faces.bean.SessionScoped;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
@@ -18,7 +19,7 @@ import javax.ws.rs.Produces;
  */
 @Path("/hello")
 @SessionScoped
-public class REST {
+public class REST implements Serializable {
     
     @GET
     @Produces("application/json")
