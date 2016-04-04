@@ -8,13 +8,11 @@ package game;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author kepoly
  */
-@SessionScoped
 public class Hand {
 
     public String name;

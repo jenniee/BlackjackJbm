@@ -6,12 +6,14 @@
 package services;
 
 import game.*;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -22,7 +24,10 @@ import javax.ws.rs.Produces;
  */
 @Path("/newGame")
 @SessionScoped
-public class NewGame {
+public class NewGame implements Serializable {
+    
+    @Inject
+    Controller control;
     
     @GET
     @Produces("application/json")
@@ -31,8 +36,6 @@ public class NewGame {
         * for testing puroposes we are returning some data.
         */
     public String newGame() {
-
-        Controller control = new Controller();
         
         /*
         * We would like the be able to initialize the below functions
@@ -59,7 +62,19 @@ public class NewGame {
 
         List playerHand = player.returnHandArray(Boolean.TRUE);
         List dealerHand = dealer.returnHandArray(Boolean.FALSE);        
+        
+        control.setDealer(dealer);
+        control.setPlayer(player);
         return player.toString();
        
     }
+    
+    @GET
+    @Path("/current")
+    @Produces("application/json")
+    public String getCurrent() {
+        return control.getPlayer().toString();
+    }
+    
+    
 }
