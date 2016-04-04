@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" + "value=" + value + ", suit=" + suit + '}';
+        return "{\"value\":\"" + value + "\",\"suit\":\"" + suit + "\"}";
     }
     
     
