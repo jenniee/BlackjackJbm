@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game;
+package game;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 /**
  *
  * @author kepoly
@@ -18,7 +16,7 @@ public class Card {
     public String value;
     public String suit;
     
-    Card(String inValue, String inSuit)
+    public Card(String inValue, String inSuit)
     {
         this.value = inValue;
         this.suit = inSuit;
@@ -66,7 +64,5 @@ public class Card {
     public String toString() {
         return "{\"value\":\"" + value + "\",\"suit\":\"" + suit + "\"}";
     }
-    
-    
     
 }

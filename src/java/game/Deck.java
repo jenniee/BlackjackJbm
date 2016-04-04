@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class Deck {
     
-    private List<Card> clubs = new ArrayList<>();
-    private List<Card> diamonds = new ArrayList<>();
-    private List<Card> hearts = new ArrayList<>();
-    private List<Card> spades = new ArrayList<>();
+    public List<Card> clubs = new ArrayList<>();
+    public List<Card> diamonds = new ArrayList<>();
+    public List<Card> hearts = new ArrayList<>();
+    public List<Card> spades = new ArrayList<>();
     
-    Deck() {
+    public Deck() {
         this.clubs = new Suit("Clubs").buildSuits();
         this.diamonds = new Suit("Diamonds").buildSuits();
         this.hearts = new Suit("Hearts").buildSuits();

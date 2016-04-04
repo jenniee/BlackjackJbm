@@ -18,7 +18,7 @@ public class Hand {
     public String name;
     public List hand;
 
-    Hand(String inName, List inHand) {
+    public Hand(String inName, List inHand) {
         this.name = inName;
         this.hand = inHand;
     }
@@ -56,9 +56,6 @@ public class Hand {
 
     @Override
     public String toString() {
-        return "Hand{" + "name=" + name + ", hand=" + hand + '}';
+        return "{" + "\"name\":" + "\"" + name + "\"" + ", \"hand\":" + hand + '}';
     }
-    
-    
-
 }
