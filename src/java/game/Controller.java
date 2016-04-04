@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import javax.faces.bean.SessionScoped;
+
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 /**
  *
  * @author kepoly
  */
+@SessionScoped
 public class Controller {
     
     private double minBet = 1;
