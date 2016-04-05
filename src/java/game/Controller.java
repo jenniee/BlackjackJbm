@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import javax.enterprise.context.SessionScoped;
 
@@ -23,7 +24,7 @@ public class Controller implements Serializable{
     
     private double minBet = 1;
     private double maxBet = 1000;
-    private double balance = 0;
+    private double balance = 1000;
     private double playerBet = minBet;
 
     private double previousWin = 0;
@@ -185,6 +186,77 @@ public class Controller implements Serializable{
         }
         return handtotal;
     }
+    
+    public String processGame(Double playerTotalInput, double dealerTotalInput, String checkOptionInput, Boolean hasPaidOutInput, 
+            Double playerBetInput, Double playerHandCountInput, Double dealerHandCountInput) {
+        
+        Double playerTotal = playerTotalInput;
+        Double dealerTotal = dealerTotalInput;
+        
+        String checkOption = checkOptionInput;
+        Boolean hasPaidOutCheck = hasPaidOutInput;
+        
+        Double playerBetCheck = playerBetInput;
+        
+        Double playerHandCount = playerHandCountInput;
+        Double dealerHandCount = dealerHandCountInput;
+        
+        Double bjValue = (playerBetCheck * 1.5) + playerBetCheck;
+        Double normalPay = playerBetCheck * 2;
+        
+        Double payoutValue = 0.0;
+        
+        Boolean checker = false;
+        
+        String returnVal = "none";
+        
+        if("newhand".equals(checkOption)) {
+            checker = true;
+        } 
+        
+        if (checker || playerTotal >= 21.0 || dealerTotal >= 21.0) {
+            
+            checker = true;
+            
+            if(playerTotal > 21) {
+                
+            } else if(dealerTotal > 21) {
+                
+            } else if (playerTotal == 21 && dealerTotal != 21 && playerHandCount == 2) {
+                
+            } else if(dealerTotal == 21 && dealerHandCount == 2) {
+                
+            } else if(dealerTotal > playerTotal) {
+                
+            } else if(playerTotal > dealerTotal) {
+                
+            } else if (Objects.equals(playerTotal, dealerTotal)) {
+                
+            }
+            returnVal = "newhand";
+            if (!hasPaidOutCheck) {
+                
+            }
+            
+        }
+        return returnVal;
+    }
+    
+    public Hand getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Hand player) {
+        this.player = player;
+    }
+
+    public Hand getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Hand dealer) {
+        this.dealer = dealer;
+    }
 
     /**
      * @param args the command line arguments
@@ -235,24 +307,5 @@ public class Controller implements Serializable{
         System.out.println("--------------");
         System.out.println(control.returnTotal(playerHand, Boolean.TRUE));
         System.out.println(control.returnTotal(dealerHand, Boolean.FALSE));
-
-        
     }
-
-    public Hand getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Hand player) {
-        this.player = player;
-    }
-
-    public Hand getDealer() {
-        return dealer;
-    }
-
-    public void setDealer(Hand dealer) {
-        this.dealer = dealer;
-    }
-
 }

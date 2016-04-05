@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 /**
  *
@@ -25,23 +26,14 @@ import javax.ws.rs.Produces;
 @Path("/newGame")
 @SessionScoped
 public class NewGame implements Serializable {
-    
+
     @Inject
     Controller control;
-    
+
     @GET
     @Produces("application/json")
-        /*
-        * This will be a void method
-        * for testing puroposes we are returning some data.
-        */
+
     public String newGame() {
-        
-        /*
-        * We would like the be able to initialize the below functions
-        * in the controller class(noproblem) but then persist the instance in the
-        * users session so refreshing the page doesn't start a new game.
-        */
 
         Deck newdeck = new Deck();
         List ddeck = newdeck.getNewDeck();
@@ -61,20 +53,117 @@ public class NewGame implements Serializable {
         dealer.takeCardFromDeck(ddeck, 1);
 
         List playerHand = player.returnHandArray(Boolean.TRUE);
-        List dealerHand = dealer.returnHandArray(Boolean.FALSE);        
-        
+        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
+
         control.setDealer(dealer);
         control.setPlayer(player);
-        return player.toString();
-       
+        control.setFinaldeck(ddeck);
+
+        return "ok";
+
+    }
+
+    @GET
+    @Path("/getPlayerTotal")
+    @Produces("application/json")
+    public String getPlayerTotal() {
+        Hand player = control.getPlayer();
+        List playerHand = player.returnHandArray(Boolean.TRUE);
+        return Double.toString(control.returnTotal(playerHand, Boolean.TRUE));
+    }
+
+    @GET
+    @Path("/getDealerTotal")
+    @Produces("application/json")
+    public String getDealerTotal() {
+        Hand dealer = control.getDealer();
+        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
+        return Double.toString(control.returnTotal(dealerHand, Boolean.FALSE));
+    }
+
+    @GET
+    @Path("getPlayerHand")
+    @Produces("application/json")
+    public String getPlayerHand() {
+        return control.getPlayer().toString();
+    }
+
+    @GET
+    @Path("getDealerHand")
+    @Produces("application/json")
+    public String getDealerHand() {
+        return control.getDealer().toString();
+    }
+
+    @GET
+    @Path("getPlayerBalance")
+    @Produces("application/json")
+    public String getPlayerBalance() {
+        return Double.toString(control.getBalance());
+    }
+
+    @GET
+    @Path("getPlayerBet")
+    @Produces("application/json")
+    public String getPlayerBet() {
+        return Double.toString(control.getPlayerBet());
+    }
+
+    @GET
+    @Path("returnOptions")
+    @Produces("application/json")
+    public String getOptions() {
+        return control.getOption();
+    }
+
+    @GET
+    @Path("getPreviousWin")
+    @Produces("application/json")
+    public String getPreviousWin() {
+        return Double.toString(control.getPreviousWin());
+    }
+
+    @GET
+    @Path("setBetAmount")
+    @Produces("application/json")
+    public void setBetAmount(@QueryParam("betamount") Double input) {
+        Double amount = input;
+        control.setPlayerBet(amount);
     }
     
     @GET
-    @Path("/current")
+    @Path("getPlayerCard")
     @Produces("application/json")
-    public String getCurrent() {
-        return control.getPlayer().toString();
+    public void getPlayerCard() {
+        List ddeck = control.getFinaldeck();
+        control.getPlayer().takeCardFromDeck(ddeck, 1);
     }
     
-    
+    @GET
+    @Path("processGame")
+    @Produces("application/json")
+    public void processGame() {
+        
+        Hand player = control.getPlayer();
+        List playerHand = player.returnHandArray(Boolean.TRUE);
+        Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
+        
+        Hand dealer = control.getDealer();
+        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
+        Double dealerTotal = control.returnTotal(dealerHand, Boolean.FALSE);
+        
+        String checkOption = control.getOption();
+        
+        Boolean hasPaidOut = control.getHasPaidOut();
+        
+        Double playerBet = control.getPlayerBet();
+        
+        Double playerHandCount = (double) playerHand.size();
+        
+        Double dealerHandCount = (double) dealerHand.size();
+        
+        control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
+                playerBet, playerHandCount, dealerHandCount);
+    }
+
 }

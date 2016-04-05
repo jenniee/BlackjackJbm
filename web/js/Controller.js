@@ -13,15 +13,15 @@ app.directive('ngRightClick', function ($parse) {
 });
 
 app.factory("services", ['$http', function ($http) {
-    var serviceBase = 'api/v1/';
+    var serviceBase = 'api/v1/newGame/';
     var obj = {};
     obj.newGame = function () {
-        return $http.get(serviceBase + 'newGame');
+        return $http.get('../api/v1/newGame');
     };
     obj.getPlayerHand = function () {
         return $http.get(serviceBase + 'getPlayerHand');
     };
-    obj.getDealerHand = function (check) {
+    obj.getDealerHand = function () {
         return $http.get(serviceBase + 'getDealerHand');
     };
     obj.getPlayerCard = function () {
@@ -43,7 +43,7 @@ app.factory("services", ['$http', function ($http) {
         return $http.get(serviceBase + 'processGame');
     };
     obj.getBalance = function () {
-        return $http.get(serviceBase + 'getBalance');
+        return $http.get(serviceBase + 'getPlayerBalance');
     };
     obj.getPlayerBet = function () {
         return $http.get(serviceBase + 'getPlayerBet');
@@ -94,22 +94,23 @@ app.controller('gameCtrl', function ($scope, $http, $location, $timeout, service
     //
     $scope.getPlayerTotal = function () {
         services.getPlayerTotal().then(function (data) {
-            $scope.playerTotal = data.data.total;
+            $scope.playerTotal = data.data;
         });
     };
     $scope.getDealerTotal = function () {
         services.getDealerTotal().then(function (data) {
-            $scope.dealerTotal = data.data.total;
+            $scope.dealerTotal = data.data;
         });
     };
     $scope.getPlayerHand = function () {
         services.getPlayerHand().then(function (data) {
+            console.log(data);
             $scope.getOptions();
-            if (data && data.data && data.data.player && data.data.player.hand) {
-                $scope.player = data.data.player.hand;
+            if (data && data.data && data.data.hand) {
+                $scope.player = data.data.hand;
             } else {
                 services.getPlayerHand().then(function (data) {
-                    $scope.player = data.data.player.hand;
+                    $scope.player = data.data.hand;
                 });
             }
             var keys = Object.keys($scope.player).length;
@@ -118,8 +119,7 @@ app.controller('gameCtrl', function ($scope, $http, $location, $timeout, service
     };
     $scope.getDealerHand = function (input) {
         services.getDealerHand(input).then(function (data) {
-            $scope.dealer = data.data.dealer.hand;
-
+            $scope.dealer = data.data.hand;
             var keys = Object.keys($scope.dealer).length;
             $scope.shouldAnimateD = keys;
         });
@@ -151,7 +151,7 @@ app.controller('gameCtrl', function ($scope, $http, $location, $timeout, service
     //
     $scope.getPreviousWin = function () {
         services.previousWin().then(function (data) {
-            $scope.previousWin = data.data.previous;
+            $scope.previousWin = data.data;
         });
     };
     $scope.newGame = function () {
@@ -179,20 +179,20 @@ app.controller('gameCtrl', function ($scope, $http, $location, $timeout, service
         $scope.getOptions();
         $scope.processGame();
         $scope.getPreviousWin();
-        $scope.getGameHash();
-        $scope.showPlayerSecret();
     };
     //
     //Blackjack, Winner, Bust, and Process the Game functions
     //
     $scope.getOptions = function () {
         services.getOptions().then(function (data) {
-            $scope.doWhat = data.data.option;
+            $scope.doWhat = data.data;
         });
     };
     $scope.processGame = function () {
         services.processGame().then(function (data) {
-            $scope.gameWinner = data.data.response;
+                        console.log(data);
+            $scope.gameWinner = data.data;
+
         });
     };
     //
@@ -200,12 +200,12 @@ app.controller('gameCtrl', function ($scope, $http, $location, $timeout, service
     //
     $scope.getBalance = function () {
         services.getBalance().then(function (data) {
-            $scope.balance = data.data.balance;
+            $scope.balance = data.data;
         });
     };
     $scope.getPlayerBet = function () {
         services.getPlayerBet().then(function (data) {
-            $scope.betAmount = data.data.bet;
+            $scope.betAmount = data.data;
         });
     };
     $scope.addToBet = function (input) {
@@ -261,7 +261,7 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'homeCtrl'
         }).when('/game', {
                 title: 'Welcome to Blackjack',
-                templateUrl: 'Web Pages/game.xhtml',
+                templateUrl: 'game.html',
                 controller: 'gameCtrl'
             })
             .otherwise({
@@ -269,7 +269,7 @@ app.config(['$routeProvider', '$locationProvider',
             });
         if (window.history && window.history.pushState) {
 
-            $locationProvider.html5Mode(true);
+            $locationProvider.html5Mode(false);
         }
     }
 ]);
