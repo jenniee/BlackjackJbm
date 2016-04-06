@@ -107,6 +107,7 @@ app.controller('gameCtrl', function ($scope, $location, services) {
     };
     $scope.getPlayerHand = function () {
         services.getPlayerHand().then(function (data) {
+            console.log(data);
             $scope.getOptions();
             if (data && data.data && data.data.hand) {
                 $scope.player = data.data.hand;

@@ -279,8 +279,8 @@ public class Controller implements Serializable {
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
             returnVal = "newhand";
-            if (hasPaidOutCheck) {
-                returnValMsg = "Start a new Hand";
+            if (!hasPaidOutCheck) {
+
             }
 
         }
