@@ -18,7 +18,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
 /**
  *
  * @author Jenniee
@@ -32,9 +31,16 @@ public class NewGame implements Serializable {
 
     @GET
     @Produces("application/json")
-
     public String newGame() {
-
+        return "{\"response\": \"ok\"}";
+    }
+   
+    
+    @GET
+    @Path("/startNewGame")
+    @Produces("application/json")
+    public String startNewGame() {
+                
         Deck newdeck = new Deck();
         List ddeck = newdeck.getNewDeck();
 
@@ -59,10 +65,10 @@ public class NewGame implements Serializable {
         control.setPlayer(player);
         control.setFinaldeck(ddeck);
 
-        return "ok";
-
+        return "{\"response\": \"ok\"}";
     }
-
+    
+    
     @GET
     @Path("/getPlayerTotal")
     @Produces("application/json")

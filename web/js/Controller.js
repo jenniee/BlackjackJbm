@@ -13,49 +13,49 @@ app.directive('ngRightClick', function ($parse) {
 });
 
 app.factory("services", ['$http', function ($http) {
-    var serviceBase = 'api/v1/newGame/';
-    var obj = {};
-    obj.newGame = function () {
-        return $http.get('../api/v1/newGame');
-    };
-    obj.getPlayerHand = function () {
-        return $http.get(serviceBase + 'getPlayerHand');
-    };
-    obj.getDealerHand = function () {
-        return $http.get(serviceBase + 'getDealerHand');
-    };
-    obj.getPlayerCard = function () {
-        return $http.get(serviceBase + 'getPlayerCard');
-    };
-    obj.getPlayerTotal = function () {
-        return $http.get(serviceBase + 'getPlayerTotal');
-    };
-    obj.getDealerTotal = function () {
-        return $http.get(serviceBase + 'getDealerTotal');
-    };
-    obj.playerStand = function () {
-        return $http.get(serviceBase + 'playerStand');
-    };
-    obj.getOptions = function () {
-        return $http.get(serviceBase + 'returnOptions');
-    };
-    obj.processGame = function () {
-        return $http.get(serviceBase + 'processGame');
-    };
-    obj.getBalance = function () {
-        return $http.get(serviceBase + 'getPlayerBalance');
-    };
-    obj.getPlayerBet = function () {
-        return $http.get(serviceBase + 'getPlayerBet');
-    };
-    obj.setPlayerBet = function (input) {
-        return $http.get(serviceBase + 'setBetAmount?betamount=' + input);
-    };
-    obj.previousWin = function () {
-        return $http.get(serviceBase + 'getPreviousWin');
-    };
-    return obj;
-}]);
+        var serviceBase = 'api/v1/newGame/';
+        var obj = {};
+        obj.newGame = function () {
+            return $http.get(serviceBase + 'startNewGame');
+        };
+        obj.getPlayerHand = function () {
+            return $http.get(serviceBase + 'getPlayerHand');
+        };
+        obj.getDealerHand = function () {
+            return $http.get(serviceBase + 'getDealerHand');
+        };
+        obj.getPlayerCard = function () {
+            return $http.get(serviceBase + 'getPlayerCard');
+        };
+        obj.getPlayerTotal = function () {
+            return $http.get(serviceBase + 'getPlayerTotal');
+        };
+        obj.getDealerTotal = function () {
+            return $http.get(serviceBase + 'getDealerTotal');
+        };
+        obj.playerStand = function () {
+            return $http.get(serviceBase + 'playerStand');
+        };
+        obj.getOptions = function () {
+            return $http.get(serviceBase + 'returnOptions');
+        };
+        obj.processGame = function () {
+            return $http.get(serviceBase + 'processGame');
+        };
+        obj.getBalance = function () {
+            return $http.get(serviceBase + 'getPlayerBalance');
+        };
+        obj.getPlayerBet = function () {
+            return $http.get(serviceBase + 'getPlayerBet');
+        };
+        obj.setPlayerBet = function (input) {
+            return $http.get(serviceBase + 'setBetAmount?betamount=' + input);
+        };
+        obj.previousWin = function () {
+            return $http.get(serviceBase + 'getPreviousWin');
+        };
+        return obj;
+    }]);
 
 app.filter('lengthObj', function () {
     return function (input) {
@@ -79,7 +79,16 @@ app.controller('homeCtrl', function ($scope, $http, $location, services) {
     };
 
 });
-app.controller('gameCtrl', function ($scope, $http, $location, $timeout, services, ngAudio) {
+app.controller('gameCtrl', function ($scope, $location, services, $window, ngAudio) {
+
+    services.getPlayerTotal().then(function (data) {
+    }, function (data) {
+        if (data.status === 500) {
+            services.newGame().then(function () {
+                 $window.location.reload();
+            });
+        }
+    });
 
     //
     //Initialization
@@ -190,7 +199,7 @@ app.controller('gameCtrl', function ($scope, $http, $location, $timeout, service
     };
     $scope.processGame = function () {
         services.processGame().then(function (data) {
-                        console.log(data);
+            console.log(data);
             $scope.gameWinner = data.data;
 
         });
@@ -257,16 +266,16 @@ app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
         $routeProvider.when('/', {
             title: 'Home',
-            templateUrl: 'Web Pages/index.html',
+            templateUrl: 'home.html',
             controller: 'homeCtrl'
         }).when('/game', {
-                title: 'Welcome to Blackjack',
-                templateUrl: 'game.html',
-                controller: 'gameCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
+            title: 'Welcome to Blackjack',
+            templateUrl: 'game.html',
+            controller: 'gameCtrl'
+        })
+                .otherwise({
+                    redirectTo: '/'
+                });
         if (window.history && window.history.pushState) {
 
             $locationProvider.html5Mode(false);
