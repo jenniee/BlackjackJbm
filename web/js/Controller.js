@@ -190,7 +190,6 @@ app.controller('gameCtrl', function ($scope, $location, services) {
     };
     $scope.processGame = function () {
         services.processGame().then(function (data) {
-            console.log(data);
             $scope.gameWinner = data.data;
 
         });

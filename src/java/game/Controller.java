@@ -244,37 +244,39 @@ public class Controller implements Serializable {
         if (checker || playerTotal >= 21.0 || dealerTotal >= 21.0) {
 
             checker = true;
-
-            if (playerTotal > 21) {
-                returnValMsg = "Player busts, start a new hand or rebet";
-                this.setHasPaidOut(true);
-            } else if (dealerTotal > 21) {
-                returnValMsg = "Dealer busts, player wins";
-                this.setBalance(normalPay);
-                payoutValue = normalPay;
-                this.setHasPaidOut(true);
-            } else if (playerTotal == 21 && dealerTotal != 21 && playerHandCount == 2) {
-                returnValMsg = "Player Blackjack x1.5 Bet";
-                this.setBalance(bjValue);
-                payoutValue = bjValue;
-                this.setHasPaidOut(true);
-            } else if (dealerTotal == 21 && dealerHandCount == 2) {
-                returnValMsg = "Dealer Blackjack, Player loses";
-                this.setHasPaidOut(true);
-            } else if (dealerTotal > playerTotal) {
-                returnValMsg = "Dealer Cards more than Players, Player loses";
-                this.setHasPaidOut(true);
-            } else if (playerTotal > dealerTotal) {
-                returnValMsg = "Player Cards more than Dealers, Player wins";
-                this.setBalance(normalPay);
-                payoutValue = normalPay;
-                this.setHasPaidOut(true);
-            } else if (Objects.equals(playerTotal, dealerTotal)) {
-                returnValMsg = "Player and Dealer Cards are Equal, Push";
-                this.setBalance(playerBetCheck);
-                payoutValue = playerBetCheck;
-                this.setHasPaidOut(true);
+            if (!hasPaidOutCheck) {
+                if (playerTotal > 21) {
+                    returnValMsg = "Player busts, start a new hand or rebet";
+                    this.setHasPaidOut(true);
+                } else if (dealerTotal > 21) {
+                    returnValMsg = "Dealer busts, player wins";
+                    this.setBalance(normalPay);
+                    payoutValue = normalPay;
+                    this.setHasPaidOut(true);
+                } else if (playerTotal == 21 && dealerTotal != 21 && playerHandCount == 2) {
+                    returnValMsg = "Player Blackjack x1.5 Bet";
+                    this.setBalance(bjValue);
+                    payoutValue = bjValue;
+                    this.setHasPaidOut(true);
+                } else if (dealerTotal == 21 && dealerHandCount == 2) {
+                    returnValMsg = "Dealer Blackjack, Player loses";
+                    this.setHasPaidOut(true);
+                } else if (dealerTotal > playerTotal) {
+                    returnValMsg = "Dealer Cards more than Players, Player loses";
+                    this.setHasPaidOut(true);
+                } else if (playerTotal > dealerTotal) {
+                    returnValMsg = "Player Cards more than Dealers, Player wins";
+                    this.setBalance(normalPay);
+                    payoutValue = normalPay;
+                    this.setHasPaidOut(true);
+                } else if (Objects.equals(playerTotal, dealerTotal)) {
+                    returnValMsg = "Player and Dealer Cards are Equal, Push";
+                    this.setBalance(playerBetCheck);
+                    payoutValue = playerBetCheck;
+                    this.setHasPaidOut(true);
+                }
             }
+            this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
             returnVal = "newhand";
             if (!hasPaidOutCheck) {
@@ -291,6 +293,14 @@ public class Controller implements Serializable {
         String returnIt = returnList.toString();
         String finalRet = "{" + "\"" + "handcheck" + "\":" + returnIt + "}";
         return finalRet;
+    }
+
+    public void takeCardFromDeck(Boolean player) {
+        if (player) {
+            this.player.takeCardFromDeck(this.finaldeck, 1);
+        } else {
+            this.dealer.takeCardFromDeck(this.finaldeck, 1);
+        }
     }
 
     /**

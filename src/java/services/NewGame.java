@@ -74,8 +74,8 @@ public class NewGame implements Serializable {
     public String startNewHand() {
 
         List ddeck = control.getFinaldeck();
-        
-        if(ddeck.size() < 10) {
+
+        if (ddeck.size() < 10) {
             Deck newdeck = new Deck();
             ddeck = newdeck.getNewDeck();
         }
@@ -115,6 +115,7 @@ public class NewGame implements Serializable {
         }
 
         control.setHasPaidOut(false);
+        control.setShowDealerTotal(Boolean.FALSE);
         control.setOption("none");
         control.setDealer(dealer);
         control.setPlayer(player);
@@ -257,6 +258,34 @@ public class NewGame implements Serializable {
 
         return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
+    }
+
+    @GET
+    @Path("/playerStand")
+    @Produces("application/json")
+    public String playerStand() {
+
+        Hand player = control.getPlayer();
+        List playerHand = player.returnHandArray(Boolean.TRUE);
+        Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
+
+        Hand dealer = control.getDealer();
+        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
+        Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
+
+        
+        if (playerTotal < 22.0) {
+            while (dealerTotal < 17.0) {
+                List ddeck = control.getFinaldeck();
+                System.out.println(ddeck);
+                dealer.takeCardFromDeck(ddeck, 1);
+                dealerTotal = control.returnTotal(dealer.returnHandArray(Boolean.FALSE), Boolean.TRUE);
+            }
+            control.setOption("newhand");
+            control.setShowDealerTotal(Boolean.TRUE);
+        }
+
+        return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
 }
