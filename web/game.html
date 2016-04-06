@@ -35,7 +35,7 @@ and open the template in the editor.
 </div>
     <div class="clearfix">
     </div>
-    <h3 class="gameDetails well" ng-class="{'alert-success': gameWinner.length > 0, 'wellT': gameWinner == null }">{{gameWinner}}</h3>
+    <h3 class="gameDetails well" ng-class="{'alert-success': gameWinner.length > 0, 'wellT': gameWinner == null }">{{gameWinner.handcheck[1].message}}</h3>
 <div class="row playerSide">
 <div class="col-md-1" >
     <h6>Player</h6>
@@ -88,7 +88,7 @@ and open the template in the editor.
         <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand'" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
         <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
         <button ng-disabled="doWhat == 'newhand'" class="btn btn-lg"  ng-click="">Double</button>
-        <button ng-disabled="doWhat != 'newhand'" class="btn btn-lg"  ng-click="newGame()">Bet/Deal</button>
+        <button ng-disabled="doWhat != 'newhand'" class="btn btn-lg"  ng-click="newHand()">Bet/Deal</button>
     </div>
 </section>
         

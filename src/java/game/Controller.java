@@ -20,8 +20,8 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
  * @author kepoly
  */
 @SessionScoped
-public class Controller implements Serializable{
-    
+public class Controller implements Serializable {
+
     private double minBet = 1;
     private double maxBet = 1000;
     private double balance = 1000;
@@ -30,41 +30,51 @@ public class Controller implements Serializable{
     private double previousWin = 0;
     private String option = "";
     private Boolean hasPaidOut = false;
-    
+
     private List finaldeck;
-    
+
     private Hand player;
     private Hand dealer;
-    
-    public Controller()
-    {
-        
+
+    private Boolean showDealerTotal = false;
+
+    public Controller() {
+
     }
-    
+
     public Controller(String name, Double balance) {
-        
+
         List playerdummy = new ArrayList<>();
         List dealerdummy = new ArrayList<>();
-        
+
         this.balance = balance;
         this.hasPaidOut = false;
         this.option = "";
         this.player = new Hand(name, playerdummy);
         this.dealer = new Hand("Dealer", dealerdummy);
-        
+
         Deck newdeck = new Deck();
         List ddeck = newdeck.getNewDeck();
 
         long seed = System.nanoTime();
         Collections.shuffle(ddeck, new Random(seed));
         this.finaldeck = ddeck;
-        
+
         player.takeCardFromDeck(ddeck, 1);
         dealer.takeCardFromDeck(ddeck, 1);
         player.takeCardFromDeck(ddeck, 1);
         dealer.takeCardFromDeck(ddeck, 1);
-        
+
     }
+
+    public Boolean getShowDealerTotal() {
+        return showDealerTotal;
+    }
+
+    public void setShowDealerTotal(Boolean showDealerTotal) {
+        this.showDealerTotal = showDealerTotal;
+    }
+
     public List getFinaldeck() {
         return finaldeck;
     }
@@ -138,6 +148,22 @@ public class Controller implements Serializable{
         this.hasPaidOut = hasPaidOut;
     }
 
+    public Hand getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Hand player) {
+        this.player = player;
+    }
+
+    public Hand getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Hand dealer) {
+        this.dealer = dealer;
+    }
+
     public Boolean checkCardAce(Card in) {
         Boolean returnVal = false;
         if (isNumber(in.value)) {
@@ -163,7 +189,7 @@ public class Controller implements Serializable{
 
         int handtotal = 0;
         int handaces = 0;
-        
+
         for (int i = 0; i < hand.size(); i++) {
             Card check = (Card) hand.get(i);
             int value;
@@ -172,140 +198,105 @@ public class Controller implements Serializable{
             } else {
                 value = 10;
             }
-            if(!showTotal && i == 1) {
+            if (!showTotal && i == 1) {
                 value = 0;
             }
             handtotal += value;
-            if(this.checkCardAce(check)) {
+            if (this.checkCardAce(check)) {
                 handaces += 1;
             }
-            while(handtotal > 21 && handaces > 0) {
+            while (handtotal > 21 && handaces > 0) {
                 handtotal -= 10;
                 handaces--;
             }
         }
         return handtotal;
     }
-    
-    public String processGame(Double playerTotalInput, double dealerTotalInput, String checkOptionInput, Boolean hasPaidOutInput, 
+
+    public String processGame(Double playerTotalInput, double dealerTotalInput, String checkOptionInput, Boolean hasPaidOutInput,
             Double playerBetInput, Double playerHandCountInput, Double dealerHandCountInput) {
-        
+
         Double playerTotal = playerTotalInput;
         Double dealerTotal = dealerTotalInput;
-        
+
         String checkOption = checkOptionInput;
         Boolean hasPaidOutCheck = hasPaidOutInput;
-        
+
         Double playerBetCheck = playerBetInput;
-        
+
         Double playerHandCount = playerHandCountInput;
         Double dealerHandCount = dealerHandCountInput;
-        
+
         Double bjValue = (playerBetCheck * 1.5) + playerBetCheck;
         Double normalPay = playerBetCheck * 2;
-        
+
         Double payoutValue = 0.0;
-        
+
         Boolean checker = false;
-        
+
         String returnVal = "none";
-        
-        if("newhand".equals(checkOption)) {
+        String returnValMsg = "Hit or Stand";
+
+        if ("newhand".equals(checkOption)) {
             checker = true;
-        } 
-        
+        }
+
         if (checker || playerTotal >= 21.0 || dealerTotal >= 21.0) {
-            
+
             checker = true;
-            
-            if(playerTotal > 21) {
-                
-            } else if(dealerTotal > 21) {
-                
+
+            if (playerTotal > 21) {
+                returnValMsg = "Player busts, start a new hand or rebet";
+                this.setHasPaidOut(true);
+            } else if (dealerTotal > 21) {
+                returnValMsg = "Dealer busts, player wins";
+                this.setBalance(normalPay);
+                payoutValue = normalPay;
+                this.setHasPaidOut(true);
             } else if (playerTotal == 21 && dealerTotal != 21 && playerHandCount == 2) {
-                
-            } else if(dealerTotal == 21 && dealerHandCount == 2) {
-                
-            } else if(dealerTotal > playerTotal) {
-                
-            } else if(playerTotal > dealerTotal) {
-                
+                returnValMsg = "Player Blackjack x1.5 Bet";
+                this.setBalance(bjValue);
+                payoutValue = bjValue;
+                this.setHasPaidOut(true);
+            } else if (dealerTotal == 21 && dealerHandCount == 2) {
+                returnValMsg = "Dealer Blackjack, Player loses";
+                this.setHasPaidOut(true);
+            } else if (dealerTotal > playerTotal) {
+                returnValMsg = "Dealer Cards more than Players, Player loses";
+                this.setHasPaidOut(true);
+            } else if (playerTotal > dealerTotal) {
+                returnValMsg = "Player Cards more than Dealers, Player wins";
+                this.setBalance(normalPay);
+                payoutValue = normalPay;
+                this.setHasPaidOut(true);
             } else if (Objects.equals(playerTotal, dealerTotal)) {
-                
+                returnValMsg = "Player and Dealer Cards are Equal, Push";
+                this.setBalance(playerBetCheck);
+                payoutValue = playerBetCheck;
+                this.setHasPaidOut(true);
             }
+            this.setShowDealerTotal(true);
             returnVal = "newhand";
             if (!hasPaidOutCheck) {
-                
+
             }
-            
+
         }
-        return returnVal;
-    }
-    
-    public Hand getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Hand player) {
-        this.player = player;
-    }
-
-    public Hand getDealer() {
-        return dealer;
-    }
-
-    public void setDealer(Hand dealer) {
-        this.dealer = dealer;
+        this.setOption(returnVal);
+        returnVal = "{" + "\"" + "handcheck" + "\":" + "\"" + returnVal + "\"" + "}";
+        returnValMsg = "{" + "\"" + "message" + "\":" + "\"" + returnValMsg + "\"" + "}";
+        List returnList = new ArrayList<>();
+        returnList.add(returnVal);
+        returnList.add(returnValMsg);
+        String returnIt = returnList.toString();
+        String finalRet = "{" + "\"" + "handcheck" + "\":" + returnIt + "}";
+        return finalRet;
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        /*
-        * Testing purposes only.
-        */
-        
-        Controller control = new Controller();
-        
-        Deck newdeck = new Deck();
-        List ddeck = newdeck.getNewDeck();
 
-        long seed = System.nanoTime();
-        Collections.shuffle(ddeck, new Random(seed));
-
-        List playerdummy = new ArrayList<>();
-        List dealerdummy = new ArrayList<>();
-
-        Hand player = new Hand("Player", playerdummy);
-        Hand dealer = new Hand("Dealer", dealerdummy);
-
-        player.takeCardFromDeck(ddeck, 1);
-        dealer.takeCardFromDeck(ddeck, 1);
-        player.takeCardFromDeck(ddeck, 1);
-        dealer.takeCardFromDeck(ddeck, 1);
-
-        List playerHand = player.returnHandArray(Boolean.TRUE);
-        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
-
-        //Iterator iter = hh.iterator();
-        //Iterator diter = dd.iterator();
-        //Object first = iter.next();
-        //System.out.println(first);
-        System.out.println(playerHand);
-        System.out.println(player.toString());
-        System.out.println("--------------");
-        System.out.println(dealerHand);
-        System.out.println(dealer.toString());
-        System.out.println("--------------");
-        System.out.println(ddeck);
-        System.out.println("--------------");
-        Card oo = (Card) player.hand.get(0);
-        System.out.println(oo.suit);
-        System.out.println(oo.value);
-        System.out.println("--------------");
-        System.out.println(control.returnTotal(playerHand, Boolean.TRUE));
-        System.out.println(control.returnTotal(dealerHand, Boolean.FALSE));
     }
 }

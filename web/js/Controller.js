@@ -18,6 +18,9 @@ app.factory("services", ['$http', function ($http) {
         obj.newGame = function () {
             return $http.get(serviceBase + 'startNewGame');
         };
+        obj.newHand = function () {
+            return $http.get(serviceBase + 'startNewHand');
+        };
         obj.getPlayerHand = function () {
             return $http.get(serviceBase + 'getPlayerHand');
         };
@@ -79,16 +82,7 @@ app.controller('homeCtrl', function ($scope, $http, $location, services) {
     };
 
 });
-app.controller('gameCtrl', function ($scope, $location, services, $window, ngAudio) {
-
-    services.getPlayerTotal().then(function (data) {
-    }, function (data) {
-        if (data.status === 500) {
-            services.newGame().then(function () {
-                 $window.location.reload();
-            });
-        }
-    });
+app.controller('gameCtrl', function ($scope, $location, services) {
 
     //
     //Initialization
@@ -97,18 +91,18 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
     $scope.bjcheck = 0;
     $scope.previousWin = 0;
     $scope.switcher = false;
-    $scope.sound = ngAudio.load("assets/deckDeal.mp3"); // returns NgAudioObject
+
     //
     //Dealer/Player Functions
     //
     $scope.getPlayerTotal = function () {
         services.getPlayerTotal().then(function (data) {
-            $scope.playerTotal = data.data;
+            $scope.playerTotal = parseInt(data.data.total);
         });
     };
     $scope.getDealerTotal = function () {
         services.getDealerTotal().then(function (data) {
-            $scope.dealerTotal = data.data;
+            $scope.dealerTotal = parseInt(data.data.total);
         });
     };
     $scope.getPlayerHand = function () {
@@ -143,7 +137,6 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
             $scope.refreshGame();
             $scope.getBalance();
             $scope.refreshDealer();
-            $scope.sound.play();
         });
     };
     $scope.playerStand = function () {
@@ -152,7 +145,6 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
             $scope.refreshDealer();
             $scope.refreshGame();
             $scope.getBalance();
-            $scope.sound.play();
         });
     };
     //
@@ -160,12 +152,11 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
     //
     $scope.getPreviousWin = function () {
         services.previousWin().then(function (data) {
-            $scope.previousWin = data.data;
+            $scope.previousWin = data.data.pwin;
         });
     };
     $scope.newGame = function () {
         services.newGame().then(function () {
-            $scope.sound.play();
             $scope.refreshGame();
             $scope.refreshPlayer();
             $scope.refreshDealer();
@@ -194,7 +185,7 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
     //
     $scope.getOptions = function () {
         services.getOptions().then(function (data) {
-            $scope.doWhat = data.data;
+            $scope.doWhat = data.data.option;
         });
     };
     $scope.processGame = function () {
@@ -209,12 +200,12 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
     //
     $scope.getBalance = function () {
         services.getBalance().then(function (data) {
-            $scope.balance = data.data;
+            $scope.balance = data.data.balance;
         });
     };
     $scope.getPlayerBet = function () {
         services.getPlayerBet().then(function (data) {
-            $scope.betAmount = data.data;
+            $scope.betAmount = data.data.bet;
         });
     };
     $scope.addToBet = function (input) {
@@ -222,21 +213,21 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
         $scope.getPlayerBet();
         $scope.betAmount = parseFloat($scope.betAmount);
         $scope.balance = parseFloat($scope.balance);
+        $scope.check = $scope.gameWinner.handcheck[0].handcheck;
+        
         $scope.betAmount += input;
-
-        if ($scope.betAmount === input) {
-            alert("Please lower your bet");
-        } else {
+        if($scope.balance > 0 && $scope.check === "newhand") {
             if ($scope.betAmount > 1000) {
                 $scope.betAmount = 1000;
             }
             if ($scope.betAmount > $scope.balance) {
                 $scope.betAmount = $scope.balance;
             }
-            services.setPlayerBet($scope.betAmount).then(function (data) {
+            services.setPlayerBet($scope.betAmount).then(function () {
                 $scope.getPlayerBet();
             });
         }
+
 
     };
     $scope.removeFromBet = function (input) {
@@ -258,6 +249,16 @@ app.controller('gameCtrl', function ($scope, $location, services, $window, ngAud
     //If someone refreshes the page angular doesn't persist it's
     //Scope so we need to recall these functions.
     //
+
+    $scope.newHand = function () {
+        services.newHand().then(function () {
+            $scope.refreshGame();
+            $scope.refreshPlayer();
+            $scope.refreshDealer();
+        });
+    };
+
+    $scope.refreshGame();
     $scope.refreshPlayer();
     $scope.refreshDealer();
     $scope.refreshGame();

@@ -18,6 +18,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
 /**
  *
  * @author Jenniee
@@ -34,13 +35,12 @@ public class NewGame implements Serializable {
     public String newGame() {
         return "{\"response\": \"ok\"}";
     }
-   
-    
+
     @GET
     @Path("/startNewGame")
     @Produces("application/json")
     public String startNewGame() {
-                
+
         Deck newdeck = new Deck();
         List ddeck = newdeck.getNewDeck();
 
@@ -67,15 +67,71 @@ public class NewGame implements Serializable {
 
         return "{\"response\": \"ok\"}";
     }
-    
-    
+
+    @GET
+    @Path("/startNewHand")
+    @Produces("application/json")
+    public String startNewHand() {
+
+        List ddeck = control.getFinaldeck();
+        
+        if(ddeck.size() < 10) {
+            Deck newdeck = new Deck();
+            ddeck = newdeck.getNewDeck();
+        }
+
+        long seed = System.nanoTime();
+        Collections.shuffle(ddeck, new Random(seed));
+
+        List playerdummy = new ArrayList<>();
+        List dealerdummy = new ArrayList<>();
+
+        Hand player = new Hand("Player", playerdummy);
+        Hand dealer = new Hand("Dealer", dealerdummy);
+
+        player.takeCardFromDeck(ddeck, 1);
+        dealer.takeCardFromDeck(ddeck, 1);
+        player.takeCardFromDeck(ddeck, 1);
+        dealer.takeCardFromDeck(ddeck, 1);
+
+        String option = control.getOption();
+        Double balance = control.getBalance();
+        Double playerBet = control.getPlayerBet();
+        Double newBet;
+
+        if (option.equalsIgnoreCase("newhand")) {
+            if (balance > 0) {
+                if (playerBet > balance) {
+                    control.setPlayerBet(balance);
+                    newBet = balance;
+                } else {
+                    control.setPlayerBet(playerBet);
+                    newBet = playerBet;
+                }
+                control.removeBalance(newBet);
+            } else {
+                control.setPlayerBet(0.0);
+            }
+        }
+
+        control.setHasPaidOut(false);
+        control.setOption("none");
+        control.setDealer(dealer);
+        control.setPlayer(player);
+        control.setFinaldeck(ddeck);
+
+        return "{\"response\": \"ok\"}";
+    }
+
     @GET
     @Path("/getPlayerTotal")
     @Produces("application/json")
     public String getPlayerTotal() {
         Hand player = control.getPlayer();
         List playerHand = player.returnHandArray(Boolean.TRUE);
-        return Double.toString(control.returnTotal(playerHand, Boolean.TRUE));
+        String returnString;
+        returnString = "{" + "\"" + "total" + "\":" + "\"" + Double.toString(control.returnTotal(playerHand, Boolean.TRUE)) + "\"" + "}";
+        return returnString;
     }
 
     @GET
@@ -84,91 +140,122 @@ public class NewGame implements Serializable {
     public String getDealerTotal() {
         Hand dealer = control.getDealer();
         List dealerHand = dealer.returnHandArray(Boolean.FALSE);
-        return Double.toString(control.returnTotal(dealerHand, Boolean.FALSE));
+        Boolean check = control.getShowDealerTotal();
+        String returnString;
+        if (check) {
+            returnString = Double.toString(control.returnTotal(dealerHand, Boolean.TRUE));
+        } else {
+            returnString = Double.toString(control.returnTotal(dealerHand, Boolean.FALSE));
+        }
+        returnString = "{" + "\"" + "total" + "\":" + "\"" + returnString + "\"" + "}";
+        return returnString;
     }
 
     @GET
-    @Path("getPlayerHand")
+    @Path("/getPlayerHand")
     @Produces("application/json")
     public String getPlayerHand() {
         return control.getPlayer().toString();
     }
 
     @GET
-    @Path("getDealerHand")
+    @Path("/getDealerHand")
     @Produces("application/json")
     public String getDealerHand() {
+        Hand dealer = control.getDealer();
+        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
+        int length = dealerHand.size();
+        Double total = control.returnTotal(dealerHand, Boolean.TRUE);
+        String option = control.getOption();
+        if (length == 2 && total != 21 && !"newhand".equals(option)) {
+            String json = "{" + "\"" + "value" + "\":" + "\"" + "back" + "\"" + ","
+                    + "\"" + "suit" + "\":" + "\"" + "of_card" + "\""
+                    + "}";
+            dealerHand.set(1, json);
+            String newHand = dealerHand.toString();
+            String returnString = "{" + "\"" + "name" + "\":" + "\"" + "Dealer" + "\"" + ","
+                    + "\"" + "hand" + "\":" + newHand
+                    + "}";
+            return returnString;
+        }
+
         return control.getDealer().toString();
     }
 
     @GET
-    @Path("getPlayerBalance")
+    @Path("/getPlayerBalance")
     @Produces("application/json")
     public String getPlayerBalance() {
-        return Double.toString(control.getBalance());
+        String returnString = "{" + "\"" + "balance" + "\":" + "\"" + Double.toString(control.getBalance()) + "\"" + "}";
+        return returnString;
     }
 
     @GET
-    @Path("getPlayerBet")
+    @Path("/getPlayerBet")
     @Produces("application/json")
     public String getPlayerBet() {
-        return Double.toString(control.getPlayerBet());
+        String returnString = "{" + "\"" + "bet" + "\":" + "\"" + Double.toString(control.getPlayerBet()) + "\"" + "}";
+        return returnString;
     }
 
     @GET
-    @Path("returnOptions")
+    @Path("/returnOptions")
     @Produces("application/json")
     public String getOptions() {
-        return control.getOption();
+        String returnString = "{" + "\"" + "option" + "\":" + "\"" + control.getOption() + "\"" + "}";
+        return returnString;
     }
 
     @GET
-    @Path("getPreviousWin")
+    @Path("/getPreviousWin")
     @Produces("application/json")
     public String getPreviousWin() {
-        return Double.toString(control.getPreviousWin());
+        String returnString = "{" + "\"" + "pwin" + "\":" + "\"" + Double.toString(control.getPreviousWin()) + "\"" + "}";
+        return returnString;
     }
 
     @GET
-    @Path("setBetAmount")
+    @Path("/setBetAmount")
     @Produces("application/json")
-    public void setBetAmount(@QueryParam("betamount") Double input) {
+    public String setBetAmount(@QueryParam("betamount") Double input) {
         Double amount = input;
         control.setPlayerBet(amount);
+        return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
-    
+
     @GET
-    @Path("getPlayerCard")
+    @Path("/getPlayerCard")
     @Produces("application/json")
-    public void getPlayerCard() {
+    public String getPlayerCard() {
         List ddeck = control.getFinaldeck();
         control.getPlayer().takeCardFromDeck(ddeck, 1);
+        return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
-    
+
     @GET
-    @Path("processGame")
+    @Path("/processGame")
     @Produces("application/json")
-    public void processGame() {
-        
+    public String processGame() {
+
         Hand player = control.getPlayer();
         List playerHand = player.returnHandArray(Boolean.TRUE);
         Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
-        
+
         Hand dealer = control.getDealer();
         List dealerHand = dealer.returnHandArray(Boolean.FALSE);
-        Double dealerTotal = control.returnTotal(dealerHand, Boolean.FALSE);
-        
+        Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
+
         String checkOption = control.getOption();
-        
+
         Boolean hasPaidOut = control.getHasPaidOut();
-        
+
         Double playerBet = control.getPlayerBet();
-        
+
         Double playerHandCount = (double) playerHand.size();
-        
+
         Double dealerHandCount = (double) dealerHand.size();
-        
-        control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
+
+        return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
     }
 
