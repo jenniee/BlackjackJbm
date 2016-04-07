@@ -62,7 +62,6 @@ public class NewGame implements Serializable {
         control.setPlayer(player);
         control.setFinaldeck(ddeck);
 
-        
         return "{\"response\": \"ok\"}";
     }
 
@@ -228,7 +227,7 @@ public class NewGame implements Serializable {
     public String getPlayerCard() {
         List ddeck = control.getFinaldeck();
         control.getPlayer().takeCardFromDeck(ddeck, 1);
-        
+
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
@@ -254,42 +253,45 @@ public class NewGame implements Serializable {
         Double playerHandCount = (double) playerHand.size();
 
         Double dealerHandCount = (double) dealerHand.size();
-        
+
         return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
     }
-    
+
     @GET
     @Path("/playerDoubleDown")
     @Produces("application/json")
     public String playerDoubleDown() {
         List sdeck = control.getFinaldeck();
         Double bet = control.getPlayerBet();
-        control.setPlayerBet(bet * 2.0);
-        control.getPlayer().takeCardFromDeck(sdeck, 1);
-        
-        Hand player = control.getPlayer();
-        List playerHand = player.returnHandArray(Boolean.TRUE);
-        Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
+        Double balance = control.getBalance();
+        if (balance >= bet) {
 
-        Hand dealer = control.getDealer();
-        List dealerHand = dealer.returnHandArray(Boolean.FALSE);
-        Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
-        
-        if (playerTotal < 22.0) {
-            while (dealerTotal < 17.0) {
-                List ddeck = control.getFinaldeck();
-                System.out.println(ddeck);
-                dealer.takeCardFromDeck(ddeck, 1);
-                dealerTotal = control.returnTotal(dealer.returnHandArray(Boolean.FALSE), Boolean.TRUE);
+            control.setPlayerBet(bet * 2.0);
+            control.getPlayer().takeCardFromDeck(sdeck, 1);
+
+            Hand player = control.getPlayer();
+            List playerHand = player.returnHandArray(Boolean.TRUE);
+            Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
+
+            Hand dealer = control.getDealer();
+            List dealerHand = dealer.returnHandArray(Boolean.FALSE);
+            Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
+
+            if (playerTotal < 22.0) {
+                while (dealerTotal < 17.0) {
+                    List ddeck = control.getFinaldeck();
+                    System.out.println(ddeck);
+                    dealer.takeCardFromDeck(ddeck, 1);
+                    dealerTotal = control.returnTotal(dealer.returnHandArray(Boolean.FALSE), Boolean.TRUE);
+                }
+                control.setOption("newhand");
+                control.setShowDealerTotal(Boolean.TRUE);
             }
-            control.setOption("newhand");
-            control.setShowDealerTotal(Boolean.TRUE);
-        }   
+        }
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
-    
-    
+
     @GET
     @Path("/playerStand")
     @Produces("application/json")
@@ -303,7 +305,6 @@ public class NewGame implements Serializable {
         List dealerHand = dealer.returnHandArray(Boolean.FALSE);
         Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
 
-        
         if (playerTotal < 22.0) {
             while (dealerTotal < 17.0) {
                 List ddeck = control.getFinaldeck();
@@ -317,7 +318,7 @@ public class NewGame implements Serializable {
 
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
-    
+
     @GET
     @Path("/resetChips")
     @Produces("application/json")
