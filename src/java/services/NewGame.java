@@ -255,7 +255,7 @@ public class NewGame implements Serializable {
         Double playerHandCount = (double) playerHand.size();
 
         Double dealerHandCount = (double) dealerHand.size();
-
+        
         return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
     }
@@ -287,5 +287,12 @@ public class NewGame implements Serializable {
 
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
-
+    
+    @GET
+    @Path("/resetChips")
+    @Produces("application/json")
+    public String resetChips() {
+        control.resetChips();
+        return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
+    }
 }

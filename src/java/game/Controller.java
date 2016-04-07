@@ -26,6 +26,7 @@ public class Controller implements Serializable {
     private double maxBet = 1000;
     private double balance = 1000;
     private double playerBet = minBet;
+    private double defaultChips = 500;
 
     private double previousWin = 0;
     private String option = "";
@@ -231,18 +232,18 @@ public class Controller implements Serializable {
         Double normalPay = playerBetCheck * 2;
 
         Double payoutValue = 0.0;
-
+        
         Boolean checker = false;
 
         String returnVal = "none";
         String returnValMsg = "Hit or Stand";
-
+        
         if ("newhand".equals(checkOption)) {
             checker = true;
         }
 
         if (checker || playerTotal >= 21.0 || dealerTotal >= 21.0) {
-
+            this.setPlayerBet(playerBetCheck);
             checker = true;
             if (!hasPaidOutCheck) {
                 if (playerTotal > 21) {
@@ -281,8 +282,8 @@ public class Controller implements Serializable {
             returnVal = "newhand";
             if (hasPaidOutCheck) {
                returnValMsg = "Hand over - Start a new hand or rebet";
+               
             }
-
         }
         this.setOption(returnVal);
         returnVal = "{" + "\"" + "handcheck" + "\":" + "\"" + returnVal + "\"" + "}";
@@ -301,6 +302,10 @@ public class Controller implements Serializable {
         } else {
             this.dealer.takeCardFromDeck(this.finaldeck, 1);
         }
+    }
+    
+    public void resetChips() {
+        this.setBalance(defaultChips);
     }
 
     /**

@@ -117,7 +117,8 @@ span {
 }
 
 .betInfo div {
-    display: block;
+    display: inline-block;
+    margin-right: 30px;
 }
 
 .crypto {

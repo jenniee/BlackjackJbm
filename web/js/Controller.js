@@ -57,6 +57,9 @@ app.factory("services", ['$http', function ($http) {
         obj.previousWin = function () {
             return $http.get(serviceBase + 'getPreviousWin');
         };
+        obj.resetChips = function () {
+            return $http.get(serviceBase + 'resetChips');
+        };
         return obj;
     }]);
 
@@ -134,6 +137,7 @@ app.controller('gameCtrl', function ($scope, $location, services) {
         services.getPlayerCard().then(function () {
             $scope.refreshPlayer();
             $scope.refreshGame();
+            $scope.getPlayerBet();
             $scope.getBalance();
             $scope.refreshDealer();
         });
@@ -143,7 +147,9 @@ app.controller('gameCtrl', function ($scope, $location, services) {
             $scope.refreshPlayer();
             $scope.refreshDealer();
             $scope.refreshGame();
+            $scope.getPlayerBet();
             $scope.getBalance();
+            $scope.getPreviousWin();
         });
     };
     //
@@ -215,18 +221,21 @@ app.controller('gameCtrl', function ($scope, $location, services) {
         
         $scope.betAmount += input;
         if($scope.balance > 0 && $scope.check === "newhand") {
-            if ($scope.betAmount > 1000) {
-                $scope.betAmount = 1000;
+            if ($scope.betAmount > 10000) {
+                $scope.betAmount = 10000;
             }
-            if ($scope.betAmount > $scope.balance) {
-                $scope.betAmount = $scope.balance;
-            }
+//            if ($scope.betAmount > $scope.balance) {
+//                $scope.betAmount = $scope.balance;
+//            }
             services.setPlayerBet($scope.betAmount).then(function () {
                 $scope.getPlayerBet();
             });
         }
-
-
+    };
+    $scope.resetChips = function () {
+        services.resetChips().then (function() {
+            $scope.getBalance();
+        });
     };
     $scope.removeFromBet = function (input) {
         $scope.betAmount -= input;
@@ -237,7 +246,7 @@ app.controller('gameCtrl', function ($scope, $location, services) {
             $scope.betAmount = 0;
         }
         if ($scope.balance > 0 && $scope.betAmount < 1) {
-            $scope.betAmount = 1;
+            $scope.betAmount = 0;
         }
         services.setPlayerBet($scope.betAmount).then(function () {
             $scope.getPlayerBet();

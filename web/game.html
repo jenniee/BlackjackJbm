@@ -54,20 +54,22 @@
         </div>
         <div class="col-md-12 betInfo">
             <div>
-                <h4 class="inline">Bet Amount: {{betAmount}}</h4>
+                <h5>Bet Amount: {{betAmount}}</h5>
+                <h5>Previous Win: {{previousWin}}</h5>
             </div>
             <div>
-                <h4 class="inline">Previous Win: {{previousWin}}</h4>
+                <h5 ng-if="!(betAmount == 0 && balance == 0)">Balance: <span class="dodger">{{balance}}</span></h5>
+                <button ng-click="resetChips()" ng-if="(betAmount == 0 && balance == 0)">Reset Chips</button>
             </div>
-            <h4 class="text-center middle">Balance: <span class="dodger">{{balance}}</span></h4>
         </div>
     </div>
     <div class="buttons btn-group">
-        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand'" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
-        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand'" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
+        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
+        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
         <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
-        <button ng-disabled="doWhat == 'newhand'" class="btn btn-lg"  ng-click="">Double</button>
-        <button ng-disabled="doWhat != 'newhand'" class="btn btn-lg"  ng-click="newHand()">Bet/Deal</button>
-    </div>
-</section>
+        <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Double</button>
+        <button ng-disabled="doWhat != 'newhand' || balance == 0" class="btn btn-lg"  ng-click="newHand()">Bet/Deal</button>
 
+    </div>
+    
+</section>
