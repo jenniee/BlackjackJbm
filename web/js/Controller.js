@@ -88,24 +88,21 @@ app.controller('homeCtrl', function ($scope, $http, $location, services) {
 });
 app.controller('gameCtrl', function ($scope, $location, $window, services) {
 
-
-
     services.getPlayerTotal().then(function () {
     }, function () {
         $window.location.href = "";
     });
 
-$scope.doubleDown = function() {
-        services.doubleDown().then(function() {
+    $scope.doubleDown = function () {
+        services.doubleDown().then(function () {
             $scope.refreshPlayer();
             $scope.refreshGame();
             $scope.getPlayerBet();
             $scope.getBalance();
             $scope.refreshDealer();
-    });
-};
+        });
+    };
 
-    
     //
     //Initialization
     //
@@ -282,7 +279,7 @@ $scope.doubleDown = function() {
     $scope.refreshGame();
     $scope.refreshPlayer();
     $scope.refreshDealer();
-    $scope.refreshGame(); 
+    $scope.refreshGame();
 });
 app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {

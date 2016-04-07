@@ -214,7 +214,6 @@ public class Controller implements Serializable {
         return handtotal;
     }
 
-    
     public String processGame(Double playerTotalInput, double dealerTotalInput, String checkOptionInput, Boolean hasPaidOutInput,
             Double playerBetInput, Double playerHandCountInput, Double dealerHandCountInput) {
 
@@ -233,12 +232,12 @@ public class Controller implements Serializable {
         Double normalPay = playerBetCheck * 2;
 
         Double payoutValue = 0.0;
-        
+
         Boolean checker = false;
 
         String returnVal = "none";
         String returnValMsg = "Hit or Stand";
-        
+
         if ("newhand".equals(checkOption)) {
             checker = true;
         }
@@ -279,12 +278,12 @@ public class Controller implements Serializable {
             }
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
-            
+
             this.setPlayerBet(playerBetCheck);
             returnVal = "newhand";
             if (hasPaidOutCheck) {
-               returnValMsg = "Hand over - Start a new hand or rebet";
-               
+                returnValMsg = "Hand over - Start a new hand or rebet";
+
             }
         }
         this.setOption(returnVal);
@@ -305,7 +304,7 @@ public class Controller implements Serializable {
             this.dealer.takeCardFromDeck(this.finaldeck, 1);
         }
     }
-    
+
     public void resetChips() {
         this.setBalance(defaultChips);
     }
@@ -314,6 +313,8 @@ public class Controller implements Serializable {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
+        /*
+        *IDK if this needs to be here..
+        */
     }
 }

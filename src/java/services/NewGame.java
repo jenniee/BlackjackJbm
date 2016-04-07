@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package services;
-
 import game.*;
-import java.io.Serializable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -110,14 +104,12 @@ public class NewGame implements Serializable {
                 control.setPlayerBet(0.0);
             }
         }
-
         control.setHasPaidOut(false);
         control.setShowDealerTotal(Boolean.FALSE);
         control.setOption("none");
         control.setDealer(dealer);
         control.setPlayer(player);
         control.setFinaldeck(ddeck);
-
         return "{\"response\": \"ok\"}";
     }
 
@@ -176,7 +168,6 @@ public class NewGame implements Serializable {
                     + "}";
             return returnString;
         }
-
         return control.getDealer().toString();
     }
 
@@ -227,7 +218,6 @@ public class NewGame implements Serializable {
     public String getPlayerCard() {
         List ddeck = control.getFinaldeck();
         control.getPlayer().takeCardFromDeck(ddeck, 1);
-
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
@@ -265,14 +255,18 @@ public class NewGame implements Serializable {
         List sdeck = control.getFinaldeck();
         Double bet = control.getPlayerBet();
         Double balance = control.getBalance();
-        if (balance >= bet) {
+        
 
-            control.setPlayerBet(bet * 2.0);
-            control.getPlayer().takeCardFromDeck(sdeck, 1);
-
+        
             Hand player = control.getPlayer();
             List playerHand = player.returnHandArray(Boolean.TRUE);
             Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
+            Double playerHandCount = (double) playerHand.size();
+            
+        if (balance >= bet && playerHandCount == 2) {
+
+            control.setPlayerBet(bet * 2.0);
+            control.getPlayer().takeCardFromDeck(sdeck, 1);
 
             Hand dealer = control.getDealer();
             List dealerHand = dealer.returnHandArray(Boolean.FALSE);
