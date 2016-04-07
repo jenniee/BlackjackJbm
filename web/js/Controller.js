@@ -77,16 +77,22 @@ app.filter('lengthObj', function () {
 
 app.controller('homeCtrl', function ($scope, $http, $location, services) {
     $scope.currentPath = $location.path();
-
     $scope.startNewGame = function () {
         services.newGame().then(function () {
             $location.path("/game");
         });
     };
-
 });
-app.controller('gameCtrl', function ($scope, $location, services) {
+app.controller('gameCtrl', function ($scope, $location, $window, services) {
 
+
+
+    services.getPlayerTotal().then(function () {
+    }, function () {
+        $window.location.href = "";
+    });
+
+    
     //
     //Initialization
     //
@@ -218,17 +224,17 @@ app.controller('gameCtrl', function ($scope, $location, services) {
         $scope.betAmount = parseFloat($scope.betAmount);
         $scope.balance = parseFloat($scope.balance);
         $scope.check = $scope.gameWinner.handcheck[0].handcheck;
-        
-        $scope.betAmount += input;
-        
 
-            services.setPlayerBet($scope.betAmount).then(function () {
-                $scope.getPlayerBet();
-            });
-        };
-    
+        $scope.betAmount += input;
+
+
+        services.setPlayerBet($scope.betAmount).then(function () {
+            $scope.getPlayerBet();
+        });
+    };
+
     $scope.resetChips = function () {
-        services.resetChips().then (function() {
+        services.resetChips().then(function () {
             $scope.getBalance();
         });
     };
@@ -263,7 +269,7 @@ app.controller('gameCtrl', function ($scope, $location, services) {
     $scope.refreshGame();
     $scope.refreshPlayer();
     $scope.refreshDealer();
-    $scope.refreshGame();
+    $scope.refreshGame(); 
 });
 app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {

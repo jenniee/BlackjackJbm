@@ -424,9 +424,13 @@ button {
 */
 
 .main-logo {
-    width: 300px;
+    width: 500px;
     height: 100px;
     background-image: url("../img/blackjack_logo_edited.PNG");
+    background-position: center;
+    background-size: cover;
+    margin: 0 auto;
+    margin-top: 25px;
 }
 
 

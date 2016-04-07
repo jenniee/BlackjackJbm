@@ -53,18 +53,16 @@ public class NewGame implements Serializable {
         Hand player = new Hand("Player", playerdummy);
         Hand dealer = new Hand("Dealer", dealerdummy);
 
-        player.takeCardFromDeck(ddeck, 1);
-        dealer.takeCardFromDeck(ddeck, 1);
-        player.takeCardFromDeck(ddeck, 1);
-        dealer.takeCardFromDeck(ddeck, 1);
-
         List playerHand = player.returnHandArray(Boolean.TRUE);
         List dealerHand = dealer.returnHandArray(Boolean.FALSE);
 
+        control.setOption("newhand");
+        control.removeBalance(1.0);
         control.setDealer(dealer);
         control.setPlayer(player);
         control.setFinaldeck(ddeck);
 
+        
         return "{\"response\": \"ok\"}";
     }
 

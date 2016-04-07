@@ -50,7 +50,7 @@ public class Controller implements Serializable {
 
         this.balance = balance;
         this.hasPaidOut = false;
-        this.option = "";
+        this.option = "newhand";
         this.player = new Hand(name, playerdummy);
         this.dealer = new Hand("Dealer", dealerdummy);
 
@@ -214,6 +214,7 @@ public class Controller implements Serializable {
         return handtotal;
     }
 
+    
     public String processGame(Double playerTotalInput, double dealerTotalInput, String checkOptionInput, Boolean hasPaidOutInput,
             Double playerBetInput, Double playerHandCountInput, Double dealerHandCountInput) {
 
@@ -278,6 +279,7 @@ public class Controller implements Serializable {
             }
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
+            
             this.setPlayerBet(playerBetCheck);
             returnVal = "newhand";
             if (hasPaidOutCheck) {
