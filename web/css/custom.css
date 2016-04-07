@@ -70,7 +70,6 @@ span {
 }
 
 .betInfo {
-    opacity: 0.8;
     height: 75px;
 }
 
@@ -89,11 +88,36 @@ span {
     border-radius: 0 0 25px 0;
 }
 
+.bet div {
+    display: inline-block;
+    margin-left: 2px;
+}
 
+.chips {
+    cursor: pointer;
+    width: 60px;
+    opacity: 0.5;
+}
+
+.chips:hover {
+    opacity: 1;
+}
+
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.disabled:hover {
+    cursor: not-allowed;
+}
 
 .betInfo h4 {
     font-size: 14px;
-    padding-top: 10px;
+}
+
+.betInfo div {
+    display: block;
 }
 
 .crypto {
@@ -129,10 +153,7 @@ span {
     color: dodgerblue;
 }
 
-.disabled {
-    opacity: 0.5;
-    pointer: not-allowed;
-}
+
 
 .moveUp {
     position: absolute;
@@ -191,7 +212,6 @@ span {
 }
 .buttons button:nth-child(1) {
     border-radius: 0 0 0 25px;
-
 }
 
 .wellT {
