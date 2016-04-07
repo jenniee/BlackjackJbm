@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Suit {
 
-    private String suitName;
+    public String suitName;
     
     public Suit(String inSuitName)
     {
@@ -35,7 +35,7 @@ public class Suit {
 
     @Override
     public String toString() {
-        return "Suit{" + "suitName=" + suitName + '}';
+        return "{" + "\"" + "suitName" + "\":" + "\"" + suitName + "\"" + '}';
     }
     
     

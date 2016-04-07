@@ -230,6 +230,7 @@ public class NewGame implements Serializable {
     public String getPlayerCard() {
         List ddeck = control.getFinaldeck();
         control.getPlayer().takeCardFromDeck(ddeck, 1);
+        
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
