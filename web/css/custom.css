@@ -1,5 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Artifika);
 @import url(https://fonts.googleapis.com/css?family=Lato);
+
+/*
+*
+*Implicit css tags
+*
+*/
+
 body {
     font-family: Artifika;
     background: url("../img/bg.png");
@@ -17,11 +24,6 @@ input, p {
 .gamehash {
     font-family: Lato;
 }
-.logo {
-    margin: 25px 0 0 0 ;
-    padding: 0;
-    text-align: center;
-}
 
 label {
     font-family: Lato;
@@ -30,6 +32,25 @@ label {
 
 span {
     color: white;
+}
+
+h1, p {
+    color: white;
+}
+
+button {
+    color: black;
+}
+/*
+*
+*End implicit css tags
+*
+*/
+
+.logo {
+    margin: 25px 0 0 0 ;
+    padding: 0;
+    text-align: center;
 }
 
 .hide {
@@ -121,60 +142,8 @@ span {
     margin-right: 30px;
 }
 
-.crypto {
-    position: absolute;
-    left: 10px;
-    right: 0;
-    bottom: 135px;
-}
-
-.crypto input {
-    margin-top: 5px;
-}
-
-#previous_outcome {
-    width: 70%;
-}
-
-.gamehash {
-    /*position: absolute;*/
-    /*left: 10px;*/
-    /*right: 0;*/
-    /*bottom: 135px;*/
-    display: block;
-    width: 75%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 25px;
-    z-index: 1001;
-
-}
-
 .dodger {
     color: dodgerblue;
-}
-
-
-
-.moveUp {
-    position: absolute;
-    top: 15px;
-    left: 47px;
-    display: inline;
-}
-
-.moveUp2 {
-    position: absolute;
-    top: 15px;
-    left: 43px;
-    display: inline;
-}
-
-.moveUp3 {
-    position: absolute;
-    top: 15px;
-    left: 37px;
-    display: inline;
 }
 
 .buttons {
@@ -233,14 +202,6 @@ span {
     min-height: 66px;
 }
 
-h1, p {
-    color: white;
-}
-
-button {
-    color: black;
-}
-
 .playerStats {
     height: 100px;
     background: white;
@@ -256,9 +217,13 @@ button {
     float: left;
     z-index: 0;
     position: relative;
-
 }
 
+/*
+*
+*Card animations up to 6 cards currently. Fade times change higher the card count
+*
+*/
 .fadeIn {
     -moz-animation-name: dropHeader;
     -moz-animation-iteration-count: 1;
@@ -343,9 +308,6 @@ button {
     animation-timing-function: ease-in;
     animation-duration: 1.1s;
 }
-
-
-
 @-moz-keyframes dropHeader {
     0% {
         -moz-transform: translateY(-50px);
@@ -371,13 +333,22 @@ button {
         transform: translateY(0);
     }
 }
-
+/*
+*
+*End card animations
+*
+*/
 
 .back {
     width: 100px;
     height: 150px;
 }
 
+/*
+*
+*Dealer and player spots/cards on the table.
+*
+*/
 .dealer .card img:nth-last-child(1) {
     width: 100px;
     height: 150px;
@@ -401,28 +372,18 @@ button {
 .playerSide {
     margin-top: 10px;
 }
-
-
-.verifyHand {
-    display: block;
-    width: 80%;
-    margin: 25px auto;
-}
-
-.blackjacktext {
-    position: absolute;
-    top: 28%;
-    right: 30%;
-    opacity: 0.2;
-}
+/*
+*
+*End dealer and player spots/cards on the table.
+*
+*/
 
 
 /*
 *
-*Header
+*Header home page
 *
 */
-
 .main-logo {
     width: 500px;
     height: 100px;
@@ -433,6 +394,12 @@ button {
     margin-top: 25px;
 }
 
+
+/*
+*
+*For screens smaller then 769px ie iphone 6s is 768px
+*
+*/
 
 @media (max-width: 769px) {
     .gameArea {
@@ -489,6 +456,11 @@ button {
     
 }
 
+/*
+*
+*Fix for ipads/tablets/large phones where buttons fell over to the next row.
+*
+*/
 @media (min-width: 500px) {
         .buttons button:nth-last-child(1) {
         width: 20.5%;
