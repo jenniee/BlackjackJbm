@@ -60,6 +60,9 @@ app.factory("services", ['$http', function ($http) {
         obj.resetChips = function () {
             return $http.get(serviceBase + 'resetChips');
         };
+        obj.doubleDown = function () {
+            return $http.get(serviceBase + 'playerDoubleDown');
+        };
         return obj;
     }]);
 
@@ -91,6 +94,16 @@ app.controller('gameCtrl', function ($scope, $location, $window, services) {
     }, function () {
         $window.location.href = "";
     });
+
+$scope.doubleDown = function() {
+        services.doubleDown().then(function() {
+            $scope.refreshPlayer();
+            $scope.refreshGame();
+            $scope.getPlayerBet();
+            $scope.getBalance();
+            $scope.refreshDealer();
+    });
+};
 
     
     //
