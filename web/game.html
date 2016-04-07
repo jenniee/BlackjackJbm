@@ -1,15 +1,14 @@
 
 <section class="gameArea">
 <div class="container">
-<h1 class="blackjacktext">BlackJack Pays 3-2</h1>
 
 <div class="row dealerSide">
-    <div class="col-md-1">
+    <div class="col-xs-2">
         <h6>Dealer</h6>
         <h1>{{dealerTotal}}</h1>
     </div>
-<div class="player dealer col-md-11">
-    <div class="col-md-1" ng-repeat="data in dealer track by $index" ng-if="data != 'newhand'">
+<div class="player dealer col-xs-10">
+    <div class="col-lg-1 col-xs-2" ng-repeat="data in dealer track by $index" ng-if="data != 'newhand'">
         <div class="card">
             <img ng-if="data.value != 'back'" ng-class="{fadeIn: shouldAnimateD == $index + 1}" ng-src="img/{{data.value}}_{{data.suit.charAt(0).toLowerCase()}}.png" />
             <img class="back fadeIn" ng-if="data.value == 'back'" ng-src="img/{{data.value}}_{{data.suit}}.png" />
@@ -21,12 +20,12 @@
     </div>
     <h3 class="gameDetails well" ng-class="{'alert-success': gameWinner.length > 0, 'wellT': gameWinner == null }">{{gameWinner.handcheck[1].message}}</h3>
 <div class="row playerSide">
-<div class="col-md-1" >
+<div class="col-xs-2" >
     <h6>Player</h6>
     <h1>{{playerTotal}}</h1>
 </div>
-    <div class="player player1 col-md-11">
-        <div class="col-md-1 phone-listing" ng-repeat="data in player track by $index">
+    <div class="player player1 col-xs-10">
+        <div class="col-lg-1 phone-listing" ng-repeat="data in player track by $index">
             <div class="card">
                 <img  ng-class="{fadeIn: shouldAnimate == ($index + 1)}" ng-src="img/{{data.value}}_{{data.suit.charAt(0).toLowerCase()}}.png" />
             </div>
@@ -68,7 +67,7 @@
         <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
         <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
         <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Double</button>
-        <button ng-disabled="doWhat != 'newhand' || balance == 0" class="btn btn-lg"  ng-click="newHand()">Bet/Deal</button>
+        <button ng-disabled="doWhat != 'newhand' || balance == 0 || betAmount < 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
 
     </div>
     
