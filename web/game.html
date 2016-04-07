@@ -36,27 +36,27 @@
 </div>
     <div class="bet btn-group">
         <div class="col-md-12">
-            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
-                <img src="img/chip-blue-medium.png" />
+            <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
+                <img src="img/chip-blue-medium.png" class="chips"/>
             </div>
-            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(5)" ng-right-click="removeFromBet(5)">
-                <img src="img/chip-yellow-medium.png"/>
+            <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(5)" ng-right-click="removeFromBet(5)">
+                <img src="img/chip-yellow-medium.png" class="chips"/>
             </div>
-            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(10)" ng-right-click="removeFromBet(10)">
-                <img src="img/chip-green-medium.png" />
+            <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(10)" ng-right-click="removeFromBet(10)">
+                <img src="img/chip-green-medium.png" class="chips"/>
             </div>
-            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(25)" ng-right-click="removeFromBet(25)">
-                <img src="img/chip-red-medium.png" />
+            <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(25)" ng-right-click="removeFromBet(25)">
+                <img src="img/chip-red-medium.png" class="chips"/>
             </div>
-            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(100)" ng-right-click="removeFromBet(100)">
-                <img src="img/chip-black-medium.png" />
+            <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(100)" ng-right-click="removeFromBet(100)">
+                <img src="img/chip-black-medium.png" class="chips"/>
             </div>
         </div>
         <div class="col-md-12 betInfo">
-            <div class="col-md-6">
+            <div>
                 <h4 class="inline">Bet Amount: {{betAmount}}</h4>
             </div>
-            <div class="col-md-6">
+            <div>
                 <h4 class="inline">Previous Win: {{previousWin}}</h4>
             </div>
             <h4 class="text-center middle">Balance: <span class="dodger">{{balance}}</span></h4>
