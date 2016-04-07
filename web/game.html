@@ -36,25 +36,20 @@
 </div>
     <div class="bet btn-group">
         <div class="col-md-12">
-            <div class="col-md-2" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
+            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
                 <img src="img/chip-blue-medium.png" />
-                <p class="moveUp">1</p>
             </div>
             <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(5)" ng-right-click="removeFromBet(5)">
                 <img src="img/chip-yellow-medium.png"/>
-                <p class="moveUp">5</p>
             </div>
-            <div class="col-md-2" ng-click="addToBet(10)" ng-right-click="removeFromBet(10)">
+            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(10)" ng-right-click="removeFromBet(10)">
                 <img src="img/chip-green-medium.png" />
-                <p class="moveUp2">10</p>
             </div>
-            <div class="col-md-2" ng-click="addToBet(25)" ng-right-click="removeFromBet(25)">
+            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(25)" ng-right-click="removeFromBet(25)">
                 <img src="img/chip-red-medium.png" />
-                <p class="moveUp2">25</p>
             </div>
-            <div class="col-md-2" ng-click="addToBet(100)" ng-right-click="removeFromBet(100)">
+            <div ng-class="{'disabled': doWhat != 'newhand'}" class="col-md-2" ng-click="addToBet(100)" ng-right-click="removeFromBet(100)">
                 <img src="img/chip-black-medium.png" />
-                <p class="moveUp3">100</p>
             </div>
         </div>
         <div class="col-md-12 betInfo">
