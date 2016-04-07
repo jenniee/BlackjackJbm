@@ -220,18 +220,13 @@ app.controller('gameCtrl', function ($scope, $location, services) {
         $scope.check = $scope.gameWinner.handcheck[0].handcheck;
         
         $scope.betAmount += input;
-        if($scope.balance > 0 && $scope.check === "newhand") {
-            if ($scope.betAmount > 10000) {
-                $scope.betAmount = 10000;
-            }
-//            if ($scope.betAmount > $scope.balance) {
-//                $scope.betAmount = $scope.balance;
-//            }
+        
+
             services.setPlayerBet($scope.betAmount).then(function () {
                 $scope.getPlayerBet();
             });
-        }
-    };
+        };
+    
     $scope.resetChips = function () {
         services.resetChips().then (function() {
             $scope.getBalance();

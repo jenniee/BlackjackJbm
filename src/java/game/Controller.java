@@ -119,7 +119,7 @@ public class Controller implements Serializable {
     public void setPlayerBet(double playerBet) {
         if (playerBet > this.getBalance()) {
             playerBet = this.getBalance();
-            this.playerBet = playerBet;
+            this.setPlayerBet(playerBet);
         } else {
             this.playerBet = playerBet;
         }
@@ -243,7 +243,6 @@ public class Controller implements Serializable {
         }
 
         if (checker || playerTotal >= 21.0 || dealerTotal >= 21.0) {
-            this.setPlayerBet(playerBetCheck);
             checker = true;
             if (!hasPaidOutCheck) {
                 if (playerTotal > 21) {
@@ -279,6 +278,7 @@ public class Controller implements Serializable {
             }
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
+            this.setPlayerBet(playerBetCheck);
             returnVal = "newhand";
             if (hasPaidOutCheck) {
                returnValMsg = "Hand over - Start a new hand or rebet";
