@@ -17,7 +17,7 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 /**
  *
- * @author kepoly
+ * @author kepolyy
  */
 @SessionScoped
 public class Controller implements Serializable {
