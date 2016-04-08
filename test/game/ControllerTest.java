@@ -5,6 +5,7 @@
  */
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,6 +20,7 @@ import static org.junit.Assert.*;
  */
 
 public class ControllerTest {
+    Controller instance;
     
     public ControllerTest() {
     }
@@ -33,10 +35,14 @@ public class ControllerTest {
     
     @Before
     public void setUp() {
+        instance = new Controller();
+        
+        System.out.print("-- Testing ");
     }
     
     @After
     public void tearDown() {
+        System.out.println("----------------------------------------\n\n");
     }
 
     /**
@@ -44,13 +50,18 @@ public class ControllerTest {
      */
     @Test
     public void testGetFinaldeck() {
-        System.out.println("getFinaldeck");
-        Controller instance = new Controller();
-        List expResult = null;
-        List result = instance.getFinaldeck();
+        System.out.println("Controller.getFinaldeck() --");
+        System.out.println("----------------------------------------");
+
+        instance.setFinaldeck(new Deck().getNewDeck());
+        
+        int expResult = 52;
+        int result = instance.getFinaldeck().size();
+        
+        System.out.println("Expected deck size: " + expResult);
+        System.out.println("Result deck size:   " + result);
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -58,12 +69,19 @@ public class ControllerTest {
      */
     @Test
     public void testSetFinaldeck() {
-        System.out.println("setFinaldeck");
-        List finaldeck = null;
-        Controller instance = new Controller();
+        System.out.println("Controller.setFinaldeck() --");
+        System.out.println("----------------------------------------");
+
+        List finaldeck = new Deck().getNewDeck();
         instance.setFinaldeck(finaldeck);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        int expResult = 52;
+        int result = finaldeck.size();
+        
+        System.out.println("Expected deck size: " + expResult);
+        System.out.println("Result deck size:   " + result);
+        
+        assertEquals(expResult, result);
     }
 
     /**
@@ -71,13 +89,17 @@ public class ControllerTest {
      */
     @Test
     public void testGetMinBet() {
-        System.out.println("getMinBet");
-        Controller instance = new Controller();
-        double expResult = 0.0;
+        System.out.println("Controller.getMinBet() --");
+        System.out.println("----------------------------------------");
+        
+        instance.setMinBet(10);
+        double expResult = 10;
         double result = instance.getMinBet();
+        
+        System.out.println("Expected minBet: " + expResult);
+        System.out.println("Result minBet:   " + result);
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -85,12 +107,22 @@ public class ControllerTest {
      */
     @Test
     public void testSetMinBet() {
-        System.out.println("setMinBet");
-        double minBet = 0.0;
-        Controller instance = new Controller();
-        instance.setMinBet(minBet);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Controller.setMinBet() --");
+        System.out.println("----------------------------------------");
+
+        double oldMinBet = 50;
+        instance.setMinBet(oldMinBet);
+        
+        double newMinBet = 100;
+        instance.setMinBet(newMinBet);
+        double expResult = newMinBet;
+        double result = instance.getMinBet();
+        
+        System.out.println("Old minBet:    " + oldMinBet);
+        System.out.println("New minBet:    " + expResult);
+        System.out.println("Result minBet: " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -98,13 +130,18 @@ public class ControllerTest {
      */
     @Test
     public void testGetMaxBet() {
-        System.out.println("getMaxBet");
-        Controller instance = new Controller();
-        double expResult = 0.0;
+        System.out.println("Controller.getMaxBet() --");
+        System.out.println("----------------------------------------");
+
+        instance.setMaxBet(5000);
+
+        double expResult = 5000;
         double result = instance.getMaxBet();
+        
+        System.out.println("Expected maxBet: " + expResult);
+        System.out.println("Result maxBet:   " + result);
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -112,12 +149,22 @@ public class ControllerTest {
      */
     @Test
     public void testSetMaxBet() {
-        System.out.println("setMaxBet");
-        double maxBet = 0.0;
-        Controller instance = new Controller();
-        instance.setMaxBet(maxBet);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Controller.setMaxBet() --");
+        System.out.println("----------------------------------------");
+
+        double oldMaxBet = 5000;
+        instance.setMaxBet(oldMaxBet);
+        
+        double newMaxBet = 1000;
+        instance.setMaxBet(newMaxBet);
+        double expResult = newMaxBet;
+        double result = instance.getMaxBet();
+        
+        System.out.println("Old maxBet:    " + oldMaxBet);
+        System.out.println("New maxBet:    " + expResult);
+        System.out.println("Result maxBet: " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -125,13 +172,19 @@ public class ControllerTest {
      */
     @Test
     public void testGetBalance() {
-        System.out.println("getBalance");
-        Controller instance = new Controller();
-        double expResult = 0.0;
+        System.out.println("Controller.getBalance() --");
+        System.out.println("----------------------------------------");
+
+        double initialBalance = 1000; // New instances start with 1000 chips
+        double addChips = 1000;
+        instance.setBalance(addChips);
+        double expResult = addChips + initialBalance; // Add initial chip amount
         double result = instance.getBalance();
+        
+        System.out.println("Expected balance: " + expResult);
+        System.out.println("Result balance:   " + result);
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -139,12 +192,21 @@ public class ControllerTest {
      */
     @Test
     public void testSetBalance() {
-        System.out.println("setBalance");
-        double balance = 0.0;
-        Controller instance = new Controller();
-        instance.setBalance(balance);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Controller.setBalance() --");
+        System.out.println("----------------------------------------");
+        
+        double initialBalance = 1000; // New instances start with 1000 chips
+        double oldBalance = instance.getBalance();
+        double addChips = 1000;
+        instance.setBalance(addChips);
+        double expResult = addChips + initialBalance; // Add initial chip amount
+        double result = instance.getBalance();
+        
+        System.out.println("Old balance:    " + oldBalance);
+        System.out.println("New balance:    " + expResult);
+        System.out.println("Result balance: " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -152,12 +214,21 @@ public class ControllerTest {
      */
     @Test
     public void testRemoveBalance() {
-        System.out.println("removeBalance");
-        double balance = 0.0;
-        Controller instance = new Controller();
-        instance.removeBalance(balance);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Controller.removeBalance() --");
+        System.out.println("----------------------------------------");
+
+        double initialBalance = 1000; // New instances start with 1000 chips
+        double oldBalance = instance.getBalance();
+        double chips = 500;
+        instance.removeBalance(chips);
+        double expResult = initialBalance - chips; // Add initial chip amount
+        double result = instance.getBalance();
+        
+        System.out.println("Old balance:    " + oldBalance);
+        System.out.println("New balance:    " + expResult);
+        System.out.println("Result balance: " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -165,13 +236,18 @@ public class ControllerTest {
      */
     @Test
     public void testGetPlayerBet() {
-        System.out.println("getPlayerBet");
-        Controller instance = new Controller();
-        double expResult = 0.0;
+        System.out.println("Controller.getPlayerBet() --");
+        System.out.println("----------------------------------------");
+        
+        double betAmount = 500;
+        instance.setPlayerBet(betAmount);
+        double expResult = betAmount;
         double result = instance.getPlayerBet();
+        
+        System.out.println("Expected playerBet: " + expResult);
+        System.out.println("Result playerBet:   " + result);
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -179,12 +255,20 @@ public class ControllerTest {
      */
     @Test
     public void testSetPlayerBet() {
-        System.out.println("setPlayerBet");
-        double playerBet = 0.0;
-        Controller instance = new Controller();
-        instance.setPlayerBet(playerBet);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Controller.setPlayerBet() --");
+        System.out.println("----------------------------------------");
+        
+        double oldPlayerBet = instance.getPlayerBet();
+        double betAmount = 500;
+        instance.setPlayerBet(betAmount);
+        double expResult = betAmount;
+        double result = instance.getPlayerBet();
+        
+        System.out.println("Old playerBet:    " + oldPlayerBet);
+        System.out.println("New playerBet:    " + expResult);
+        System.out.println("Result playerBet: " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -192,13 +276,18 @@ public class ControllerTest {
      */
     @Test
     public void testGetPreviousWin() {
-        System.out.println("getPreviousWin");
-        Controller instance = new Controller();
-        double expResult = 0.0;
+        System.out.println("Controller.getPreviousWin() --");
+        System.out.println("----------------------------------------");
+        
+        double winAmount = 500;
+        instance.setPreviousWin(winAmount);
+        double expResult = winAmount;
         double result = instance.getPreviousWin();
+        
+        System.out.println("Expected previousWin: " + expResult);
+        System.out.println("Result previousWin:   " + result);
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -206,12 +295,20 @@ public class ControllerTest {
      */
     @Test
     public void testSetPreviousWin() {
-        System.out.println("setPreviousWin");
-        double previousWin = 0.0;
-        Controller instance = new Controller();
-        instance.setPreviousWin(previousWin);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Controller.setPreviousWin() --");
+        System.out.println("----------------------------------------");
+        
+        double oldWin = instance.getPreviousWin();
+        double winAmount = 500;
+        instance.setPreviousWin(winAmount);
+        double expResult = winAmount;
+        double result = instance.getPreviousWin();
+        
+        System.out.println("Old previousWin:    " + oldWin);
+        System.out.println("New previousWin:    " + expResult);
+        System.out.println("Result previousWin: " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -219,13 +316,18 @@ public class ControllerTest {
      */
     @Test
     public void testGetOption() {
-        System.out.println("getOption");
-        Controller instance = new Controller();
-        String expResult = "";
+        System.out.println("Controller.getOption() --");
+        System.out.println("----------------------------------------");
+        
+        String option = "hello";
+        instance.setOption(option);
+        String expResult = option;
         String result = instance.getOption();
+        
+        System.out.println("Expected option: " + expResult);
+        System.out.println("Result option:   " + result);
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -233,12 +335,22 @@ public class ControllerTest {
      */
     @Test
     public void testSetOption() {
-        System.out.println("setOption");
-        String option = "";
-        Controller instance = new Controller();
+        System.out.println("Controller.setOption() --");
+        System.out.println("----------------------------------------");
+        
+        instance.setOption("hello");
+        String oldOption = instance.getOption();
+        
+        String option = "world";
         instance.setOption(option);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expResult = option;
+        String result = instance.getOption();
+        
+        System.out.println("Old option:    " + oldOption);
+        System.out.println("New option:    " + expResult);
+        System.out.println("Result option: " + result);
+        
+        assertEquals(expResult, result);
     }
 
     /**
@@ -246,13 +358,16 @@ public class ControllerTest {
      */
     @Test
     public void testGetHasPaidOut() {
-        System.out.println("getHasPaidOut");
-        Controller instance = new Controller();
-        Boolean expResult = null;
+        System.out.println("Controller.getHasPaidOut() --");
+        System.out.println("----------------------------------------");
+        
+        Boolean expResult = false; // Instance is false by default
         Boolean result = instance.getHasPaidOut();
+        
+        System.out.println("Expected hasPaidOut: " + expResult);
+        System.out.println("Result hasPaidOut:   " + result);
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -260,12 +375,18 @@ public class ControllerTest {
      */
     @Test
     public void testSetHasPaidOut() {
-        System.out.println("setHasPaidOut");
-        Boolean hasPaidOut = null;
-        Controller instance = new Controller();
+        System.out.println("Controller.setHasPaidOut() --");
+        System.out.println("----------------------------------------");
+
+        Boolean hasPaidOut = true;
         instance.setHasPaidOut(hasPaidOut);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Boolean expResult = true;
+        Boolean result = instance.getHasPaidOut();
+        
+        System.out.println("Expected hasPaidOut: " + expResult);
+        System.out.println("Result hasPaidOut:   " + result);
+        
+        assertEquals(expResult, result);
     }
 
     /**
@@ -273,14 +394,17 @@ public class ControllerTest {
      */
     @Test
     public void testCheckCardAce() {
-        System.out.println("checkCardAce");
-        Card in = null;
-        Controller instance = new Controller();
-        Boolean expResult = null;
+        System.out.println("Controller.checkCardAce() --");
+        System.out.println("----------------------------------------");
+        
+        Card in = new Card("11", "D");
+        Boolean expResult = true;
         Boolean result = instance.checkCardAce(in);
+        
+        System.out.println("Expected if Ace: " + expResult);
+        System.out.println("Result if Ace:   " + result);
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -288,11 +412,17 @@ public class ControllerTest {
      */
     @Test
     public void testGetNewDeck() {
-        System.out.println("getNewDeck");
-        Controller instance = new Controller();
+        System.out.println("Controller.getNewDeck() --");
+        System.out.println("----------------------------------------");
+
         instance.getNewDeck();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expResult = 52;
+        int result = instance.getFinaldeck().size();
+        
+        System.out.println("Expected deck size: " + expResult);
+        System.out.println("Result deck size:   " + result);
+        
+        assertEquals(expResult, result);
     }
 
     /**
@@ -300,27 +430,30 @@ public class ControllerTest {
      */
     @Test
     public void testReturnTotal() {
-        System.out.println("returnTotal");
-        List hand = null;
-        Boolean showTotal = null;
-        Controller instance = new Controller();
-        double expResult = 0.0;
-        double result = instance.returnTotal(hand, showTotal);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        System.out.println("Controller.returnTotal() --");
+        System.out.println("----------------------------------------");
 
-    /**
-     * Test of main method, of class Controller.
-     */
-    @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        Controller.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List <Card> hand = new ArrayList<>();
+        
+        Card card1 = new Card("2", "S");  // Value = 2       | Total = 2
+        Card card2 = new Card("11", "D"); // Value = 11 or 1 | Total = 13
+        Card card3 = new Card("J", "C");  // Value = 10      | Total = 13 <- Ace value = 1
+        Card card4 = new Card("7", "S");  // Value = 7       | Total = 20
+        Card card5 = new Card("11", "H"); // Value = 1       | Total = 21
+        
+        hand.add(0, card1);
+        hand.add(1, card2);
+        hand.add(2, card3);
+        hand.add(3, card4);
+        hand.add(4, card5);
+        
+        Boolean showTotal = true;
+        double expResult = 21;
+        double result = instance.returnTotal(hand, showTotal);
+        
+        System.out.println("Expected hand total: " + expResult);
+        System.out.println("Result hand total:   " + result);
+        
+        assertEquals(expResult, result, 0.0);
     }
-    
 }
