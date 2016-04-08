@@ -57,6 +57,7 @@ public class SuitTest {
     @Test
     public void testToString() {
         System.out.println("Suit.toString --");
+        System.out.println("----------------------------------------");
         
         String expResult = "{\"suitName\":\"" + suit.suitName + "\"}";
         String result = suit.toString();
