@@ -265,6 +265,7 @@ public class NewGame implements Serializable {
             
         if (balance >= bet && playerHandCount == 2) {
 
+            //set the players bet to two times what it currently is and pull the double down card.
             control.setPlayerBet(bet * 2.0);
             control.getPlayer().takeCardFromDeck(sdeck, 1);
 
@@ -272,6 +273,7 @@ public class NewGame implements Serializable {
             List dealerHand = dealer.returnHandArray(Boolean.FALSE);
             Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
             
+            //we need to reget the players total because it is not updated from the orginal set of cards he had.
             Hand playerSecondCheck = control.getPlayer();
             List playerHandSecondCheck = playerSecondCheck.returnHandArray(Boolean.TRUE);
             Double playerTotalSecondCheck = control.returnTotal(playerHandSecondCheck, Boolean.TRUE);
