@@ -117,11 +117,13 @@ public class Controller implements Serializable {
     }
 
     public void setPlayerBet(double playerBet) {
-        if (playerBet > this.getBalance()) {
-            playerBet = this.getBalance();
-            this.setPlayerBet(playerBet);
-        } else {
-            this.playerBet = playerBet;
+        if ("newhand".equals(this.getOption())) {
+            if (playerBet > this.getBalance()) {
+                playerBet = this.getBalance();
+                this.setPlayerBet(playerBet);
+            } else {
+                this.playerBet = playerBet;
+            }
         }
     }
 
@@ -314,7 +316,7 @@ public class Controller implements Serializable {
      */
     public static void main(String[] args) {
         /*
-        *IDK if this needs to be here..
-        */
+         *IDK if this needs to be here..
+         */
     }
 }

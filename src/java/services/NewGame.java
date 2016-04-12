@@ -271,8 +271,12 @@ public class NewGame implements Serializable {
             Hand dealer = control.getDealer();
             List dealerHand = dealer.returnHandArray(Boolean.FALSE);
             Double dealerTotal = control.returnTotal(dealerHand, Boolean.TRUE);
-
-            if (playerTotal < 22.0) {
+            
+            Hand playerSecondCheck = control.getPlayer();
+            List playerHandSecondCheck = playerSecondCheck.returnHandArray(Boolean.TRUE);
+            Double playerTotalSecondCheck = control.returnTotal(playerHandSecondCheck, Boolean.TRUE);
+            
+            if (playerTotalSecondCheck < 22.0) {
                 while (dealerTotal < 17.0) {
                     List ddeck = control.getFinaldeck();
                     System.out.println(ddeck);
