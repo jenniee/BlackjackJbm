@@ -1,4 +1,6 @@
 package services;
+import database.Game;
+import database.UserController;
 import game.*;
 
 import java.io.Serializable;
@@ -6,12 +8,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  *
@@ -23,6 +27,7 @@ public class NewGame implements Serializable {
 
     @Inject
     Controller control;
+    
 
     @GET
     @Produces("application/json")
@@ -33,8 +38,10 @@ public class NewGame implements Serializable {
     @GET
     @Path("/startNewGame")
     @Produces("application/json")
-    public String startNewGame() {
+    public String startNewGame(@QueryParam("username") String username) {
 
+        String gameid = UUID.randomUUID().toString();
+        
         //we setup a dummy game with no cards so angular
         //doesnt return a bunch of 404 not founds.
         Deck newdeck = new Deck();
@@ -56,7 +63,16 @@ public class NewGame implements Serializable {
         control.setDealer(dealer);
         control.setPlayer(player);
         control.setFinaldeck(ddeck);
-
+        
+        
+        Game newGame = new Game();
+        newGame.setGame_id(gameid);
+        newGame.setNumber_decks(1);
+        newGame.setUser_id(new UserController().returnUserIdFromDb(username));
+        newGame.setUser_starting_balance(new UserController().returnUsersBalance(username));
+        
+        newGame.insertNewGame();
+        
         return "{\"response\": \"ok\"}";
     }
 

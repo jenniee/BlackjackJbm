@@ -63,11 +63,11 @@
                 </div>
             </div>
             <div class="buttons btn-group">
-                <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
-                <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
+                <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
+                <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
                 <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
-                <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || player.length &gt; 2 || doWhat === 'newhand' || doWhat == 'newhandDont' || (balance - betAmount &lt; 0) ||(betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
-                <button ng-disabled="(doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont') || balance == 0 || betAmount &lt; 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
+                <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || player.length > 2 || doWhat === 'newhand' || doWhat == 'newhandDont' || (balance - betAmount < 0) ||(betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
+                <button ng-disabled="(doWhat != 'newhand' && doWhat != 'newhandDont') || balance == 0 || betAmount < 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
             </div>
         </div>
 </section>

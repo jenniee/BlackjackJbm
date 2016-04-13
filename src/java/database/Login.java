@@ -6,6 +6,12 @@
 package database;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 
 /**
@@ -34,15 +40,12 @@ public class Login implements Serializable{
         this.password = password;
     }
 
-    public boolean getLoggedIn() {
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-
+    public Boolean getLoggedIn() {
         return loggedIn;
     }
 
     public void setLoggedIn(Boolean loggedIn) {
         this.loggedIn = loggedIn;
-        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||");
     }
     
     public boolean doLogin() {
@@ -56,4 +59,44 @@ public class Login implements Serializable{
         }
         return loggedIn;
     }
+    
+    public Boolean registerNewUser(String username, String password) {
+
+        java.sql.Connection conn;
+        int checker;
+        if(username.length() < 4 || password.length() < 4) {
+            return false;
+        } else if("undefined".equals(username) || "undefined".equals(password)) {
+            return false;
+        } else if(new UserController().getUsernameByUsernameTrue(username)) {
+            return false;
+        }
+        try {
+        conn = Connection.getConnection();
+        String hashedPassword = Hash.hash(password);
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users (user_name, user_hash_pass, user_balance, user_active, user_failed_log_attempts) VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        pstmt.setString(1, username);
+        pstmt.setString(2, hashedPassword);
+        pstmt.setInt(3, 1000);
+        pstmt.setInt(4, 1);
+        pstmt.setInt(5, 0);
+        pstmt.executeUpdate();
+            ResultSet newId = pstmt.getGeneratedKeys();
+            if (newId.next()) {
+                checker = newId.getInt(1);
+                if(checker > 0) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return false;
+    }
+    
+    
 }

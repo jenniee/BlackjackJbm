@@ -18,10 +18,11 @@ import java.util.logging.Logger;
  */
 public class Hash {
 
+    public final static String salt = "THISISArandomSTRINGofCHARACTERSusedTOsaltTHEpasswords";
     
     public static String hash(String password){
         try {
-            String salted = password + SALT;
+            String salted = password + salt;
             MessageDigest md = MessageDigest.getInstance("SHA1");
             byte[] hash = md.digest(salted.getBytes("UTF-8"));
             StringBuilder sb = new StringBuilder();

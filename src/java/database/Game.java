@@ -5,6 +5,13 @@
  */
 package database;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -19,19 +26,19 @@ public class Game {
      *
      */
     
-    public int game_id;
-    public int user_id;
-    public String start_time;
-    public String end_time;
-    public int number_decks;
-    public int user_starting_balance;
-    public int user_bet_amount;
+    private String game_id;
+    private int user_id;
+    private String start_time;
+    private String end_time;
+    private int number_decks;
+    private double user_starting_balance;
+    private double user_bet_amount;
 
-    public int getGame_id() {
+    public String getGame_id() {
         return game_id;
     }
 
-    public void setGame_id(int game_id) {
+    public void setGame_id(String game_id) {
         this.game_id = game_id;
     }
 
@@ -67,20 +74,46 @@ public class Game {
         this.number_decks = number_decks;
     }
 
-    public int getUser_starting_balance() {
+    public double getUser_starting_balance() {
         return user_starting_balance;
     }
 
-    public void setUser_starting_balance(int user_starting_balance) {
+    public void setUser_starting_balance(double user_starting_balance) {
         this.user_starting_balance = user_starting_balance;
     }
 
-    public int getUser_bet_amount() {
+    public double getUser_bet_amount() {
         return user_bet_amount;
     }
 
-    public void setUser_bet_amount(int user_bet_amount) {
+    public void setUser_bet_amount(double user_bet_amount) {
         this.user_bet_amount = user_bet_amount;
+    }
+    
+    public void insertNewGame() {
+        
+        java.sql.Connection conn;
+
+     try {
+        conn = Connection.getConnection();
+
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO games (user_id, number_decks, user_starting_balance, game_code) VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, user_id);
+        pstmt.setInt(2, number_decks);
+        pstmt.setDouble(3, user_starting_balance);
+        pstmt.setString(4, game_id);
+        pstmt.executeUpdate();
+            ResultSet newId = pstmt.getGeneratedKeys();
+            if (newId.next()) {
+                
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        
+        
     }
     
     public String returnGameJson(int g_id, int u_id, String start, String end, int decks, int starting_balance, int bet){

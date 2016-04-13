@@ -5,11 +5,15 @@
  */
 package database;
 
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
+
 /**
  *
  * @author kepoly
  */
-public class User {
+@SessionScoped
+public class User implements Serializable{
 
     /*
      *

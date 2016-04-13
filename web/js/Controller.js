@@ -19,6 +19,15 @@ app.factory("login", ['$http', function ($http) {
         obj.isLoggedIn = function () {
             return $http.get(serviceBase + 'show');
         };
+        obj.doLogin = function() {
+            return $http.get(serviceBase + 'doLogin');
+        };
+        obj.registerNewUser = function(username, password) {
+            return $http.get(serviceBase + 'registerNewUser?username=' + username + '&password=' + password );
+        };
+        obj.loginWithParams = function(username, password) {
+            return $http.get(serviceBase + 'loginWithParams?username=' + username + '&password=' + password );
+        };
         return obj;
     }]);
 
@@ -30,8 +39,8 @@ app.factory("login", ['$http', function ($http) {
 app.factory("services", ['$http', function ($http) {
         var serviceBase = 'api/v1/newGame/';
         var obj = {};
-        obj.newGame = function () {
-            return $http.get(serviceBase + 'startNewGame');
+        obj.newGame = function (username) {
+            return $http.get(serviceBase + 'startNewGame?username' + username);
         };
         obj.newHand = function () {
             return $http.get(serviceBase + 'startNewHand');
@@ -93,13 +102,51 @@ app.filter('lengthObj', function () {
     };
 });
 
-app.controller('homeCtrl', function ($scope, $http, $location, services) {
+app.controller('homeCtrl', function ($scope, $http, $location, services, login) {
+    
     $scope.currentPath = $location.path();
-    $scope.startNewGame = function () {
-        services.newGame().then(function () {
+    $scope.hasTried = false;
+    
+    $scope.startNewGame = function (username) {
+        services.newGame(username).then(function (data) {
             $location.path("/game");
         });
     };
+    
+    $scope.doLogin = function() {
+        login.doLogin().then(function(data) {
+            console.log(data.data);
+        });
+    };
+    
+    $scope.registerNewUser = function(username, password) {
+        login.registerNewUser(username, password).then(function(data) {
+            console.log(data.data);
+            $scope.hasTried = true;
+            $scope.registerUserSuccess = data.data.registered;
+        });
+    };
+    
+    $scope.loginWithParams = function(username, password) {
+        login.loginWithParams(username, password).then(function(data) {
+            console.log(data.data);
+            $scope.loggedInSuccess = data.data.loggedIn;
+            
+            if($scope.loggedInSuccess === true) {
+                $scope.isLoggedIn = true;
+            } else {
+                $scope.isLoggedIn = false;
+            }
+        });
+    };
+    
+    login.isLoggedIn().then(function(data) {
+        $scope.isLoggedIn = data.data.loggedIn;
+        console.log($scope.isLoggedIn);
+    });
+    
+
+    
 });
 app.controller('gameCtrl', function ($scope, $location, $window, services, login) {
 
@@ -312,12 +359,12 @@ app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
         $routeProvider.when('/', {
             title: 'Home',
-            templateUrl: 'home.xhtml',
+            templateUrl: 'home.html',
             controller: 'homeCtrl'
         })
         .when('/game', {
             title: 'Welcome to Blackjack',
-            templateUrl: 'game.xhtml',
+            templateUrl: 'game.html',
             controller: 'gameCtrl'
         })
         .otherwise({

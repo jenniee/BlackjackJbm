@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import javax.enterprise.context.SessionScoped;
-
+import java.util.UUID;
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 /**
@@ -21,7 +21,7 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
  */
 @SessionScoped
 public class Controller implements Serializable {
-
+    
     private double minBet = 1;
     private double maxBet = 1000;
     private double balance = 1000;

@@ -14,12 +14,16 @@ import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+
+
 
 /**
  *
  * @author bryner
  */
+
 @Path("/login")
 @SessionScoped
 public class LoginController implements Serializable {
@@ -31,24 +35,57 @@ public class LoginController implements Serializable {
     @Path("/doLogin")
     @Produces("application/json")
     public Response doLogin() {
-        user.setLoggedIn(Boolean.TRUE);
-        return Response.ok("Ok").build();
+        
+        return Response.ok("{ \"loggedIn\":  " + true +  "}").build();
     }
     
     @GET
     @Path("/getLoggedIn")
     @Produces("application/json")
     public Response getLoggedIn() {
-        System.out.println(user.getLoggedIn());
-        return Response.ok("OK").build();
+        return Response.ok("{ \"loggedIn\":  " + user.getLoggedIn() +  ", \"username\": " + user.getUsername() + " }").build();
+    }
+    
+    @GET
+    @Path("/registerNewUser")
+    @Produces("application/json")
+    public Response registerNewUser(@QueryParam("username") String username, @QueryParam("password") String password) {
+        
+        Boolean didRegister = user.registerNewUser(username, password);
+        if(didRegister == true) {
+            return Response.ok("{ \"registered\":  " + true +  "}").build();
+        } else {
+            return Response.ok("{ \"registered\":  " + false +  "}").build();
+        }
+    }
+    
+    @GET
+    @Path("/loginWithParams")
+    @Produces("application/json")
+    public Response loginWithParams(@QueryParam("username") String username, @QueryParam("password") String password) {
+        user.setPassword(password);
+        user.setUsername(username);
+        Boolean didLogin = user.doLogin();
+        if(didLogin == true) {
+            user.setLoggedIn(Boolean.TRUE);
+            user.setUsername(username);
+            return Response.ok("{ \"loggedIn\":  " + true +  "}").build();
+        } else {
+            user.setLoggedIn(Boolean.FALSE);
+            return Response.ok("{ \"loggedIn\":  " + false +  "}").build();
+        }
     }
     
     @GET
     @Path("/show")
     @Produces("application/json")
     public Response showLoggedIn() {
-        this.doLogin();
-        String res = "{ \"loggedIn\":  " + user.getLoggedIn() +  "}";
+        String res;
+        if(user.getLoggedIn() == null) {
+            res = "{ \"loggedIn\":  " + false +  "}"; 
+        } else {
+            res = "{ \"loggedIn\":  " + user.getLoggedIn() +  "}";
+        }
         return Response.ok(res).build();
     }
 }

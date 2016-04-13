@@ -16,19 +16,19 @@ import java.util.logging.Logger;
  */
 public class Connection {
 
-    public static java.sql.Connection getConnection() throws SQLException {
+   public static java.sql.Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
+            String host = "localhost";
+            String port = "3306";
+            String db = "blackjackjbm";
+            String user = "root";
+            String pass = "";
+            String jdbc = "jdbc:mysql://" + host + ":" + port + "/" + db;
+            return DriverManager.getConnection(jdbc, user, pass);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(java.sql.Connection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        String hostname = "localhost";
-        String port = "3306";
-        String dbname = "blackjack";
-        String username = "root";
-        String password = "";
-        String jdbc = String.format("jdbc:mysql://%s:%s/%s", hostname, port, dbname);
-        return DriverManager.getConnection(jdbc, username, password);
     }
 }
