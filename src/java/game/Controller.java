@@ -266,7 +266,7 @@ public class Controller implements Serializable {
                     this.setBalance(bjValue);
                     payoutValue = bjValue;
                     this.setHasPaidOut(true);
-                } else if (dealerTotal == 21 && dealerHandCount == 2) {
+                } else if (dealerTotal == 21 && playerTotal != 21 && dealerHandCount == 2) {
                     returnValMsg = "Dealer Blackjack, Player loses";
                     this.setHasPaidOut(true);
                 } else if (dealerTotal > playerTotal) {
