@@ -42,9 +42,7 @@
 
         </div>
     </div>
-
-    <section class="homePage">
-
+    <section class="homePage" ng-if="isLoggedIn">
         <button class="startGame" ng-click="startNewGame(loggedInUsername)" >Start new Game</button>
     </section>
 </div>

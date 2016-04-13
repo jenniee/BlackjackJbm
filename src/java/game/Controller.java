@@ -5,22 +5,13 @@
  */
 package game;
 
-import database.Connection;
-import database.UserController;
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import javax.enterprise.context.SessionScoped;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 /**
