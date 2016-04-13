@@ -287,7 +287,7 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
             } else {
                  console.log("balance has not been set");
             }
-
+            $scope.getPlayerBet();
         });
     };
     //
