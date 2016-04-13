@@ -23,14 +23,11 @@ public class User {
     private int user_balance;
     private Boolean user_active;
     private int user_failed_log_attempts;
-    private Boolean isLoggedIn;
 
-    public Boolean getIsLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setIsLoggedIn(Boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
+    public User(int user_id, String user_name, String user_hash_pass) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_hash_pass = user_hash_pass;
     }
 
     public int getUser_id() {
@@ -79,14 +76,6 @@ public class User {
 
     public void setUser_failed_log_attempts(int user_failed_log_attempts) {
         this.user_failed_log_attempts = user_failed_log_attempts;
-    }
-    
-    public void setLoggedIn(boolean in) {
-        isLoggedIn = in;
-    }
-    
-    public boolean isLoggedIn() {
-        return isLoggedIn;
     }
     
     public String returnJson(int id, String name, String hash, int balance, Boolean active, int failed_attempts){

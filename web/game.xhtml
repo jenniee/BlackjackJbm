@@ -1,83 +1,75 @@
     <!-- DONT NEED HEADER AND FOOTER BECAUSE THIS PAGE IS RENDERED THROUGH INDEX.HTML AND ANGULAR ROUTE -->
-    <section class="gameArea"
-             mlns="http://www.w3.org/1999/xhtml"
-            xmlns:h="http://xmlns.jcp.org/jsf/html"
-            xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-             >
-    
-    
-            <c:if test="#{user.isloggedIn}">
-
-    
-    <div class="container">
-        <div class="row dealerSide">
-            <div class="col-xs-2">
-                <h6>Dealer</h6>
-                <h1>{{dealerTotal}}</h1>
-            </div>
-            <div class="player dealer col-xs-10">
-                <div class="col-lg-1 col-xs-2" ng-repeat="data in dealer track by $index" ng-if="data != 'newhand'">
-                    <div class="card">
-                        <img ng-if="data.value != 'back'" ng-class="{fadeIn: shouldAnimateD == $index + 1}" ng-src="img/{{data.value}}_{{data.suit.charAt(0).toLowerCase()}}.png" />
-                        <img class="back fadeIn" ng-if="data.value == 'back'" ng-src="img/{{data.value}}_{{data.suit}}.png" />
+    <section class="gameArea" mlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" >
+        <c:if test="#{loginController.showLoggedIn()}">
+            <div class="container">
+                <div class="row dealerSide">
+                    <div class="col-xs-2">
+                        <h6>Dealer</h6>
+                        <h1>{{dealerTotal}}</h1>
+                    </div>
+                    <div class="player dealer col-xs-10">
+                        <div class="col-lg-1 col-xs-2" ng-repeat="data in dealer track by $index" ng-if="data != 'newhand'">
+                            <div class="card">
+                                <img ng-if="data.value != 'back'" ng-class="{fadeIn: shouldAnimateD == $index + 1}" ng-src="img/{{data.value}}_{{data.suit.charAt(0).toLowerCase()}}.png" />
+                                <img class="back fadeIn" ng-if="data.value == 'back'" ng-src="img/{{data.value}}_{{data.suit}}.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+                <h3 class="gameDetails well" ng-class="{'alert-success': gameWinner.length > 0, 'wellT': gameWinner == null }">{{gameWinner.handcheck[1].message}}</h3>
+                <div class="row playerSide">
+                    <div class="col-xs-2" >
+                        <h6>Player</h6>
+                        <h1>{{playerTotal}}</h1>
+                    </div>
+                    <div class="player player1 col-xs-10">
+                        <div class="col-lg-1 phone-listing" ng-repeat="data in player track by $index">
+                            <div class="card">
+                                <img  ng-class="{fadeIn: shouldAnimate == ($index + 1)}" ng-src="img/{{data.value}}_{{data.suit.charAt(0).toLowerCase()}}.png" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="clearfix">
-        </div>
-        <h3 class="gameDetails well" ng-class="{'alert-success': gameWinner.length > 0, 'wellT': gameWinner == null }">{{gameWinner.handcheck[1].message}}</h3>
-        <div class="row playerSide">
-            <div class="col-xs-2" >
-                <h6>Player</h6>
-                <h1>{{playerTotal}}</h1>
-            </div>
-            <div class="player player1 col-xs-10">
-                <div class="col-lg-1 phone-listing" ng-repeat="data in player track by $index">
-                    <div class="card">
-                        <img  ng-class="{fadeIn: shouldAnimate == ($index + 1)}" ng-src="img/{{data.value}}_{{data.suit.charAt(0).toLowerCase()}}.png" />
+            <div class="bet btn-group">
+                <div class="col-md-12">
+                    <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
+                        <img src="img/chip-blue-medium.png" class="chips"/>
+                    </div>
+                    <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(5)" ng-right-click="removeFromBet(5)">
+                        <img src="img/chip-yellow-medium.png" class="chips"/>
+                    </div>
+                    <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(10)" ng-right-click="removeFromBet(10)">
+                        <img src="img/chip-green-medium.png" class="chips"/>
+                    </div>
+                    <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(25)" ng-right-click="removeFromBet(25)">
+                        <img src="img/chip-red-medium.png" class="chips"/>
+                    </div>
+                    <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(100)" ng-right-click="removeFromBet(100)">
+                        <img src="img/chip-black-medium.png" class="chips"/>
+                    </div>
+                </div>
+                <div class="col-md-12 betInfo">
+                    <div>
+                        <h5>Bet Amount: {{betAmount}}</h5>
+                        <h5>Previous Win: {{previousWin}}</h5>
+                    </div>
+                    <div>
+                        <h5 ng-if="!(betAmount == 0 &amp;&amp; balance == 0)">Balance: <span class="dodger">{{balance}}</span></h5>
+                        <button ng-click="resetChips()" ng-if="(betAmount == 0 &amp;&amp; balance == 0)">Reset Chips</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="bet btn-group">
-        <div class="col-md-12">
-            <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
-                <img src="img/chip-blue-medium.png" class="chips"/>
+            <div class="buttons btn-group">
+                <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
+                <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
+                <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
+                <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || player.length &gt; 2 || doWhat === 'newhand' || doWhat == 'newhandDont' || (balance - betAmount &lt; 0) ||(betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
+                <button ng-disabled="(doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont') || balance == 0 || betAmount &lt; 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
             </div>
-            <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(5)" ng-right-click="removeFromBet(5)">
-                <img src="img/chip-yellow-medium.png" class="chips"/>
-            </div>
-            <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(10)" ng-right-click="removeFromBet(10)">
-                <img src="img/chip-green-medium.png" class="chips"/>
-            </div>
-            <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(25)" ng-right-click="removeFromBet(25)">
-                <img src="img/chip-red-medium.png" class="chips"/>
-            </div>
-            <div ng-class="{'disabled': doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont'}" ng-click="addToBet(100)" ng-right-click="removeFromBet(100)">
-                <img src="img/chip-black-medium.png" class="chips"/>
-            </div>
-        </div>
-        <div class="col-md-12 betInfo">
-            <div>
-                <h5>Bet Amount: {{betAmount}}</h5>
-                <h5>Previous Win: {{previousWin}}</h5>
-            </div>
-            <div>
-                <h5 ng-if="!(betAmount == 0 &amp;&amp; balance == 0)">Balance: <span class="dodger">{{balance}}</span></h5>
-                <button ng-click="resetChips()" ng-if="(betAmount == 0 &amp;&amp; balance == 0)">Reset Chips</button>
-            </div>
-        </div>
-    </div>
-    <div class="buttons btn-group">
-        <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
-        <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
-        <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
-        <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || player.length &gt; 2 || doWhat === 'newhand' || doWhat == 'newhandDont' || (balance - betAmount &lt; 0) ||(betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
-        <button ng-disabled="(doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont') || balance == 0 || betAmount &lt; 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
-    </div>
                 
-                        </c:if>
+        </c:if>
 
 </section>

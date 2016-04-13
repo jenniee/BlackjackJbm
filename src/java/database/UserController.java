@@ -51,18 +51,19 @@ public class UserController implements Serializable {
         try {
             conn = Connection.getConnection();
             String sql = "SELECT * FROM users";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()) {
+                User u = new User(
+                    rs.getInt("user_id"),
+                    rs.getString("user_name"),
+                    rs.getString("user_hash_pass")
+                );
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
     }
-    
-    
-    
-    
-    
-    
 }
