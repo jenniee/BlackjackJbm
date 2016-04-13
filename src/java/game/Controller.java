@@ -39,6 +39,7 @@ public class Controller implements Serializable {
     private double previousWin = 0;
     private String option = "";
     private Boolean hasPaidOut = false;
+    private Boolean hasBalanceBeenSet = false;
 
     private List finaldeck;
 
@@ -179,6 +180,14 @@ public class Controller implements Serializable {
         this.dealer = dealer;
     }
 
+    public Boolean getHasBalanceBeenSet() {
+        return hasBalanceBeenSet;
+    }
+
+    public void setHasBalanceBeenSet(Boolean hasBalanceBeenSet) {
+        this.hasBalanceBeenSet = hasBalanceBeenSet;
+    }
+
     public Boolean checkCardAce(Card in) {
         Boolean returnVal = false;
         if (isNumber(in.value)) {
@@ -294,6 +303,7 @@ public class Controller implements Serializable {
                     this.setHasPaidOut(true);
                 }
             }
+            this.hasBalanceBeenSet = true;
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
             
@@ -305,8 +315,8 @@ public class Controller implements Serializable {
             returnVal = "newhand";
             if (hasPaidOutCheck) {
                 returnValMsg = "Hand over - Start a new hand or rebet";
-
             }
+            
         } else if("newhandDont".equals(checkOptions)) {
             returnValMsg = "Please set your bet amount and deal";
             returnVal = "newhandDont";
@@ -314,9 +324,11 @@ public class Controller implements Serializable {
         this.setOption(returnVal);
         returnVal = "{" + "\"" + "handcheck" + "\":" + "\"" + returnVal + "\"" + "}";
         returnValMsg = "{" + "\"" + "message" + "\":" + "\"" + returnValMsg + "\"" + "}";
+        String returnValMsgCheck = "{" + "\"" + "message" + "\":" + "\"" + hasBalanceBeenSet + "\"" + "}";
         List returnList = new ArrayList<>();
         returnList.add(returnVal);
         returnList.add(returnValMsg);
+        returnList.add(returnValMsgCheck);
         String returnIt = returnList.toString();
         String finalRet = "{" + "\"" + "handcheck" + "\":" + returnIt + "}";
         return finalRet;

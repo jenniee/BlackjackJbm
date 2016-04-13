@@ -73,6 +73,9 @@ app.factory("services", ['$http', function ($http) {
         obj.setPlayerBet = function (input) {
             return $http.get(serviceBase + 'setBetAmount?betamount=' + input);
         };
+        obj.setBalance = function (username) {
+            return $http.get(serviceBase + 'setBalance?username=' + username);
+        };
         obj.previousWin = function () {
             return $http.get(serviceBase + 'getPreviousWin');
         };
@@ -276,6 +279,14 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
         services.processGame($scope.loggedInUsername).then(function (data) {
             $scope.gameWinner = data.data;
             console.log($scope.gameWinner);
+            console.log($scope.gameWinner.handcheck[2].message);
+            if($scope.gameWinner.handcheck[2].message === "true") {
+                services.setBalance($scope.loggedInUsername).then(function() {
+                    console.log("balance has been set");
+                });
+            } else {
+                 console.log("balance has not been set");
+            }
 
         });
     };

@@ -271,20 +271,25 @@ public class NewGame implements Serializable {
         Double playerHandCount = (double) playerHand.size();
 
         Double dealerHandCount = (double) dealerHand.size();
-        
-        UserController userControl = new UserController();
-        
-        control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
-                playerBet, playerHandCount, dealerHandCount);
-        
-        if(control.getHasPaidOut()) {
-            System.out.println("Checking has paud out");
-            userControl.setBalance(control.getBalance(), username);
-            control.setBalance(userControl.returnUsersBalance(username));
-        }
+    
+        /*
+        *
+        *This is not how we should be doing this but for now we can leave it.
+        *
+        */
         
         return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
+    }
+    @GET
+    @Path("/setBalance")
+    @Produces("application/json")
+    public String setBalance(@QueryParam("username") String username) {
+        UserController userControl = new UserController();
+        userControl.setBalance(control.getBalance(), username);
+        control.setHasBalanceBeenSet(Boolean.FALSE);
+        System.out.println("username to set: " + username);
+         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
     @GET
