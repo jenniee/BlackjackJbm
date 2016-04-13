@@ -6,6 +6,7 @@
 package services;
 
 import database.Login;
+import database.UserController;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -42,6 +43,16 @@ public class LoginRest implements Serializable {
     @Produces("application/json")
     public Response getLoggedIn() {
         return Response.ok("{ \"loggedIn\":  " + user.getLoggedIn() +  ", \"username\": " + "\"" + user.getUsername() + "\"" + " }").build();
+    }
+    
+    @GET
+    @Path("/deleteAccount")
+    @Produces("application/json")
+    public Response deleteUser(@QueryParam("username") String username) {
+        UserController userControl = new UserController();
+        userControl.deleteUserFromDatabase(username);
+        user.setLoggedIn(Boolean.FALSE);
+        return Response.ok("{ \"diddelete\":  " + user.getLoggedIn() + "}").build();
     }
     
     @GET

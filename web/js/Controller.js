@@ -28,6 +28,9 @@ app.factory("login", ['$http', function ($http) {
         obj.loginWithParams = function(username, password) {
             return $http.get(serviceBase + 'loginWithParams?username=' + username + '&password=' + password );
         };
+        obj.deleteAccount = function(username, password) {
+            return $http.get(serviceBase + 'deleteAccount?username=' + username);
+        };
         return obj;
     }]);
 
@@ -115,6 +118,13 @@ app.controller('homeCtrl', function ($scope, $http, $location, services, login) 
     $scope.doLogin = function() {
         login.doLogin().then(function(data) {
             console.log(data.data);
+        });
+    };
+    
+    $scope.deleteAccount = function() {
+        login.deleteAccount($scope.loggedInUsername).then(function(data) {
+            console.log(data.data);
+            $location.path("/home");
         });
     };
     
