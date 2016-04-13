@@ -163,9 +163,9 @@ app.controller('gameCtrl', function ($scope, $location, $window, services) {
             $scope.refreshPlayer();
             $scope.refreshDealer();
             $scope.refreshGame();
-            $scope.getPlayerBet();
             $scope.getBalance();
             $scope.getPreviousWin();
+            $scope.getPlayerBet();
         });
     };
     //
@@ -197,6 +197,7 @@ app.controller('gameCtrl', function ($scope, $location, $window, services) {
         $scope.getDealerTotal();
     };
     $scope.refreshGame = function () {
+        $scope.getPlayerBet();
         $scope.getOptions();
         $scope.processGame();
         $scope.getPreviousWin();

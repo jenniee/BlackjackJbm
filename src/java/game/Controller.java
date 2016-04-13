@@ -240,6 +240,7 @@ public class Controller implements Serializable {
         Double payoutValue = 0.0;
 
         Boolean checker = false;
+        Boolean forceBetZero = false;
 
         String returnVal = "none";
         String returnValMsg = "Hit or Stand";
@@ -256,6 +257,7 @@ public class Controller implements Serializable {
                 if (playerTotal > 21) {
                     returnValMsg = "Player busts, start a new hand or rebet";
                     this.setHasPaidOut(true);
+                    forceBetZero = true;
                 } else if (dealerTotal > 21) {
                     returnValMsg = "Dealer busts, player wins";
                     this.setBalance(normalPay);
@@ -286,8 +288,12 @@ public class Controller implements Serializable {
             }
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
+            
 
-            this.setPlayerBet(playerBetCheck);
+                this.setPlayerBet(playerBetCheck);
+            
+            
+            
             returnVal = "newhand";
             if (hasPaidOutCheck) {
                 returnValMsg = "Hand over - Start a new hand or rebet";
