@@ -156,7 +156,7 @@ app.controller('gameCtrl', function ($scope, $location, $window, services) {
             $scope.getPlayerBet();
             $scope.getBalance();
             $scope.refreshDealer();
-        });
+        });         
     };
     $scope.playerStand = function () {
         services.playerStand().then(function () {
@@ -226,7 +226,12 @@ app.controller('gameCtrl', function ($scope, $location, $window, services) {
     };
     $scope.getPlayerBet = function () {
         services.getPlayerBet().then(function (data) {
+            if($scope.doWhat === "newhand" && $scope.balance < 1) {
+                $scope.betAmount = $scope.balance;
+            } else {
             $scope.betAmount = data.data.bet;
+            }
+              
         });
     };
     $scope.addToBet = function (input) {

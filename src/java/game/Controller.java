@@ -289,8 +289,13 @@ public class Controller implements Serializable {
             this.setPreviousWin(payoutValue);
             this.setShowDealerTotal(true);
             
-
+            if(this.balance == 0.0) {
+                this.setPlayerBet(0.0);
+            } else {
                 this.setPlayerBet(playerBetCheck);
+            }
+
+          
             
             
             
