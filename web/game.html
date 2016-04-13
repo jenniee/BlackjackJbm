@@ -34,7 +34,7 @@
     </div>
     <div class="bet btn-group">
         <div class="col-md-12">
-            <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
+            <div ng-class="{'disabled': doWhat != 'newhand' || doWhat != 'newhandDont'}" ng-click="addToBet(1)" ng-right-click="removeFromBet(1)">
                 <img src="img/chip-blue-medium.png" class="chips"/>
             </div>
             <div ng-class="{'disabled': doWhat != 'newhand'}" ng-click="addToBet(5)" ng-right-click="removeFromBet(5)">
@@ -62,11 +62,13 @@
         </div>
     </div>
     <div class="buttons btn-group">
-        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
-        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
+        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="getPlayerCard()">Hit</button>
+        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || doWhat == 'newhand' || doWhat == 'newhandDont' || (betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="playerStand()">Stand</button>
         <button ng-disabled="doWhat != 'tt'" class="btn btn-lg"  ng-click="">Split</button>
-        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || player.length > 2 || doWhat === 'newhand' || (balance - betAmount < 0) ||(betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
-        <button ng-disabled="doWhat != 'newhand' || balance == 0 || betAmount < 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
+        <button ng-disabled="playerTotal > 21 || dealerTotal > 21 || player.length > 2 || doWhat === 'newhand' || doWhat == 'newhandDont' || (balance - betAmount < 0) ||(betAmount == 0 && balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
+        <button ng-disabled="(doWhat != 'newhand' && doWhat != 'newhandDont') || balance == 0 || betAmount < 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
     </div>
 </section>
+    
+    {{doWhat}}
    

@@ -35,6 +35,8 @@ public class NewGame implements Serializable {
     @Produces("application/json")
     public String startNewGame() {
 
+        //we setup a dummy game with no cards so angular
+        //doesnt return a bunch of 404 not founds.
         Deck newdeck = new Deck();
         List ddeck = newdeck.getNewDeck();
 
@@ -50,8 +52,7 @@ public class NewGame implements Serializable {
         List playerHand = player.returnHandArray(Boolean.TRUE);
         List dealerHand = dealer.returnHandArray(Boolean.FALSE);
 
-        control.setOption("newhand");
-        control.removeBalance(1.0);
+        control.setOption("newhandDont");
         control.setDealer(dealer);
         control.setPlayer(player);
         control.setFinaldeck(ddeck);
@@ -90,7 +91,7 @@ public class NewGame implements Serializable {
         Double playerBet = control.getPlayerBet();
         Double newBet;
 
-        if (option.equalsIgnoreCase("newhand")) {
+        if (option.equalsIgnoreCase("newhand") || option.equalsIgnoreCase("newhandDont")) {
             if (balance > 0) {
                 if (playerBet > balance) {
                     control.setPlayerBet(balance);
@@ -263,10 +264,10 @@ public class NewGame implements Serializable {
             Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
             Double playerHandCount = (double) playerHand.size();
             
-        if (balance >= bet && playerHandCount == 2) {
+        if (playerHandCount == 2) {
 
             //set the players bet to two times what it currently is and pull the double down card.
-            control.setPlayerBet(bet * 2.0);
+            control.doubleDownPlayerBet();
             control.getPlayer().takeCardFromDeck(sdeck, 1);
 
             Hand dealer = control.getDealer();
