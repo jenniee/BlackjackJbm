@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class Connection {
 
-    public static Connection getConnection() throws SQLException {
+    public static java.sql.Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
@@ -29,6 +29,6 @@ public class Connection {
         String username = "root";
         String password = "";
         String jdbc = String.format("jdbc:mysql://%s:%s/%s", hostname, port, dbname);
-        return (Connection) DriverManager.getConnection(jdbc, username, password);
+        return DriverManager.getConnection(jdbc, username, password);
     }
 }

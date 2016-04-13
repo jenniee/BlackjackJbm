@@ -46,7 +46,7 @@ public class UserController implements Serializable {
 
     private void updateUsersFromDatabase() {
         users = new ArrayList<>();
-        Connection conn;
+        java.sql.Connection conn;
         
         try {
             conn = Connection.getConnection();
