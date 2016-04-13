@@ -117,7 +117,7 @@ public class Controller implements Serializable {
     }
 
     public void setPlayerBet(double playerBet) {
-        if ("newhand".equals(this.getOption())) {
+        if ("newhand".equals(this.getOption()) || "newhandDont".equalsIgnoreCase(this.getOption())) {
             if (playerBet > this.getBalance()) {
                 playerBet = this.getBalance();
                 this.setPlayerBet(playerBet);
@@ -125,6 +125,10 @@ public class Controller implements Serializable {
                 this.playerBet = playerBet;
             }
         }
+    }
+    
+    public void doubleDownPlayerBet() {
+        this.playerBet = this.playerBet + this.playerBet;
     }
 
     public double getPreviousWin() {
@@ -239,6 +243,8 @@ public class Controller implements Serializable {
 
         String returnVal = "none";
         String returnValMsg = "Hit or Stand";
+        
+        String checkOptions = this.getOption();
 
         if ("newhand".equals(checkOption)) {
             checker = true;
@@ -287,6 +293,9 @@ public class Controller implements Serializable {
                 returnValMsg = "Hand over - Start a new hand or rebet";
 
             }
+        } else if("newhandDont".equals(checkOptions)) {
+            returnValMsg = "Please set your bet amount and deal";
+            returnVal = "newhandDont";
         }
         this.setOption(returnVal);
         returnVal = "{" + "\"" + "handcheck" + "\":" + "\"" + returnVal + "\"" + "}";
