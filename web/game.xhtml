@@ -1,6 +1,6 @@
     <!-- DONT NEED HEADER AND FOOTER BECAUSE THIS PAGE IS RENDERED THROUGH INDEX.HTML AND ANGULAR ROUTE -->
-    <section class="gameArea" mlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" >
-        <c:if test="#{loginController.showLoggedIn()}">
+    <section ng-class="{'hidem': loggedIn === false}">
+        <div class="gameArea">
             <div class="container">
                 <div class="row dealerSide">
                     <div class="col-xs-2">
@@ -69,7 +69,5 @@
                 <button ng-disabled="playerTotal &gt; 21 || dealerTotal &gt; 21 || player.length &gt; 2 || doWhat === 'newhand' || doWhat == 'newhandDont' || (balance - betAmount &lt; 0) ||(betAmount == 0 &amp;&amp; balance == 0)" class="btn btn-lg"  ng-click="doubleDown()">Double</button>
                 <button ng-disabled="(doWhat != 'newhand' &amp;&amp; doWhat != 'newhandDont') || balance == 0 || betAmount &lt; 1" class="btn btn-lg"  ng-click="newHand()">Deal</button>
             </div>
-                
-        </c:if>
-
+        </div>
 </section>

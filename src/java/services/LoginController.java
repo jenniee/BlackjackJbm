@@ -45,9 +45,10 @@ public class LoginController implements Serializable {
     
     @GET
     @Path("/show")
-    @Produces("text/plain")
-    public Boolean showLoggedIn() {
-        System.out.println("BALLSLALBLABLALSALABLAALALBALSSSSS");
-        return user.getLoggedIn();
+    @Produces("application/json")
+    public Response showLoggedIn() {
+        this.doLogin();
+        String res = "{ \"loggedIn\":  " + user.getLoggedIn() +  "}";
+        return Response.ok(res).build();
     }
 }

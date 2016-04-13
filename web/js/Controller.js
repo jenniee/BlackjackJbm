@@ -12,6 +12,21 @@ app.directive('ngRightClick', function ($parse) {
     };
 });
 
+
+app.factory("login", ['$http', function ($http) {
+        var serviceBase = 'api/v1/login/';
+        var obj = {};
+        obj.isLoggedIn = function () {
+            return $http.get(serviceBase + 'show');
+        };
+        return obj;
+    }]);
+
+
+
+
+
+
 app.factory("services", ['$http', function ($http) {
         var serviceBase = 'api/v1/newGame/';
         var obj = {};
@@ -86,7 +101,7 @@ app.controller('homeCtrl', function ($scope, $http, $location, services) {
         });
     };
 });
-app.controller('gameCtrl', function ($scope, $location, $window, services) {
+app.controller('gameCtrl', function ($scope, $location, $window, services, login) {
 
     services.getPlayerTotal().then(function () {
     }, function () {
@@ -281,6 +296,12 @@ app.controller('gameCtrl', function ($scope, $location, $window, services) {
             $scope.refreshDealer();
         });
     };
+
+    login.isLoggedIn().then(function (data) {
+        console.log(data);
+        $scope.loggedIn = data.data.loggedIn;
+        console.log($scope.loggedIn);
+    });
 
     $scope.refreshGame();
     $scope.refreshPlayer();

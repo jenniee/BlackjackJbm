@@ -490,3 +490,7 @@ button {
    border: 10px outset dodgerblue;
    min-height: 480px;
 }
+
+.hidem {
+    visibility: hidden;
+}
