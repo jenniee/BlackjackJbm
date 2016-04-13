@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/login")
 @SessionScoped
-public class LoginController implements Serializable {
+public class LoginRest implements Serializable {
     
     @Inject
     Login user;
@@ -43,7 +43,7 @@ public class LoginController implements Serializable {
     @Path("/getLoggedIn")
     @Produces("application/json")
     public Response getLoggedIn() {
-        return Response.ok("{ \"loggedIn\":  " + user.getLoggedIn() +  ", \"username\": " + user.getUsername() + " }").build();
+        return Response.ok("{ \"loggedIn\":  " + user.getLoggedIn() +  ", \"username\": " + "\"" + user.getUsername() + "\"" + " }").build();
     }
     
     @GET

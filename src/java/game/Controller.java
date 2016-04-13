@@ -5,7 +5,13 @@
  */
 package game;
 
+import database.Connection;
+import database.UserController;
 import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +19,8 @@ import java.util.Objects;
 import java.util.Random;
 import javax.enterprise.context.SessionScoped;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 /**
@@ -24,7 +32,7 @@ public class Controller implements Serializable {
     
     private double minBet = 1;
     private double maxBet = 1000;
-    private double balance = 1000;
+    private double balance = 0;
     private double playerBet = minBet;
     private double defaultChips = 500;
 
@@ -293,12 +301,7 @@ public class Controller implements Serializable {
                 this.setPlayerBet(0.0);
             } else {
                 this.setPlayerBet(playerBetCheck);
-            }
-
-          
-            
-            
-            
+            }      
             returnVal = "newhand";
             if (hasPaidOutCheck) {
                 returnValMsg = "Hand over - Start a new hand or rebet";

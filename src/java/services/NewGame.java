@@ -41,6 +41,18 @@ public class NewGame implements Serializable {
     public String startNewGame(@QueryParam("username") String username) {
 
         String gameid = UUID.randomUUID().toString();
+        String user = username;
+        
+        Game newGame = new Game();
+        UserController controlCheck = new UserController();
+        
+        newGame.setGame_id(gameid);
+        newGame.setNumber_decks(1);
+        newGame.setUser_id(controlCheck.returnUserIdFromDb(user));
+        newGame.setUser_starting_balance(controlCheck.returnUsersBalance(user));
+        control.setBalance(controlCheck.returnUsersBalance(user));
+        newGame.insertNewGame();
+        
         
         //we setup a dummy game with no cards so angular
         //doesnt return a bunch of 404 not founds.
@@ -65,13 +77,7 @@ public class NewGame implements Serializable {
         control.setFinaldeck(ddeck);
         
         
-        Game newGame = new Game();
-        newGame.setGame_id(gameid);
-        newGame.setNumber_decks(1);
-        newGame.setUser_id(new UserController().returnUserIdFromDb(username));
-        newGame.setUser_starting_balance(new UserController().returnUsersBalance(username));
-        
-        newGame.insertNewGame();
+
         
         return "{\"response\": \"ok\"}";
     }
@@ -79,7 +85,9 @@ public class NewGame implements Serializable {
     @GET
     @Path("/startNewHand")
     @Produces("application/json")
-    public String startNewHand() {
+    public String startNewHand(@QueryParam("username") String username) {
+        
+        UserController userControl = new UserController();
 
         List ddeck = control.getFinaldeck();
 
@@ -117,6 +125,7 @@ public class NewGame implements Serializable {
                     newBet = playerBet;
                 }
                 control.removeBalance(newBet);
+                userControl.removeFromBalance(newBet, username);
             } else {
                 control.setPlayerBet(0.0);
             }
@@ -241,8 +250,10 @@ public class NewGame implements Serializable {
     @GET
     @Path("/processGame")
     @Produces("application/json")
-    public String processGame() {
+    public String processGame(@QueryParam("username") String username) {
 
+        String user = username;
+        
         Hand player = control.getPlayer();
         List playerHand = player.returnHandArray(Boolean.TRUE);
         Double playerTotal = control.returnTotal(playerHand, Boolean.TRUE);
@@ -260,7 +271,18 @@ public class NewGame implements Serializable {
         Double playerHandCount = (double) playerHand.size();
 
         Double dealerHandCount = (double) dealerHand.size();
-
+        
+        UserController userControl = new UserController();
+        
+        control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
+                playerBet, playerHandCount, dealerHandCount);
+        
+        if(control.getHasPaidOut()) {
+            System.out.println("Checking has paud out");
+            userControl.setBalance(control.getBalance(), username);
+            control.setBalance(userControl.returnUsersBalance(username));
+        }
+        
         return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
     }

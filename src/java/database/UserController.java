@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import java.sql.*;
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 
 /**
  *
@@ -38,6 +38,7 @@ public class UserController implements Serializable {
     }
 
     public String getUsernameById(int id) {
+        this.updateUsersFromDatabase();
         for (User u : users) {
             if (u.getUser_id() == id) {
                 return u.getUser_name();
@@ -47,8 +48,10 @@ public class UserController implements Serializable {
     }
     
     public int returnUserIdFromDb(String username) {
+        this.updateUsersFromDatabase();
         for (User u : users) {
-            if (u.getUser_name() == null ? username == null : u.getUser_name().equals(username)) {
+            if (u.getUser_name().equals(username)) {
+                System.out.println("checking");
                 return u.getUser_id();
             }
         }
@@ -56,8 +59,10 @@ public class UserController implements Serializable {
     }
     
     public double returnUsersBalance(String username) {
+        this.updateUsersFromDatabase();
         for (User u : users) {
             if (u.getUser_name().equals(username)) {
+                System.out.println("checking balance");
                 return u.getUser_balance();
             }
         }
@@ -65,6 +70,7 @@ public class UserController implements Serializable {
     }
     
     public String getUsernameByUsername(String username) {
+        this.updateUsersFromDatabase();
         for (User u : users) {
             if (u.getUser_name() == null ? username == null : u.getUser_name().equals(username)) {
                 return u.getUser_name();
@@ -74,6 +80,7 @@ public class UserController implements Serializable {
     }
     
     public int getUsernameByIdCheck(int id) {
+        this.updateUsersFromDatabase();
         for (User u : users) {
             if (u.getUser_id() == id) {
                 return u.getUser_id();
@@ -83,18 +90,90 @@ public class UserController implements Serializable {
     }
     
     public Boolean getUsernameByUsernameTrue(String username) {
+        this.updateUsersFromDatabase();
         for(User u : users) {
-            if(u.getUser_name() == null ? username == null : u.getUser_name().equals(username)) {
+            if(u.getUser_name().equals(username)) {
                 return true;
             }
         }
         return false;
     }
+    
+    public void removeFromBalance(double bet, String username) {
+        java.sql.Connection conn;
+        this.updateUsersFromDatabase();
+        try {
+            conn = Connection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE USERS SET user_balance = user_balance - ? WHERE user_name = ?", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setDouble(1, bet);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+            ResultSet newId = pstmt.getGeneratedKeys();
+            if (newId.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        public void setBalance(double balance, String username) {
+        java.sql.Connection conn;
+        this.updateUsersFromDatabase();
+        try {
+            conn = Connection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE USERS SET user_balance = ? WHERE user_name = ?", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setDouble(1, balance);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+            ResultSet newId = pstmt.getGeneratedKeys();
+            if (newId.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addToBalance(double bet, String username) {
+        java.sql.Connection conn;
+        this.updateUsersFromDatabase();
+        try {
+            conn = Connection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE USERS SET user_balance = user_balance + ? WHERE user_name = ?", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setDouble(1, bet);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+            ResultSet newId = pstmt.getGeneratedKeys();
+            if (newId.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public void deleteUserFromDatabase(String username) {
+        java.sql.Connection conn;
+        this.updateUsersFromDatabase();
+        try {
+            conn = Connection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM users WHERE user_name = ?", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, username);
+            pstmt.executeUpdate();
+            ResultSet newId = pstmt.getGeneratedKeys();
+            if (newId.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void updateUsersFromDatabase() {
         users = new ArrayList<>();
         java.sql.Connection conn;
-
         try {
             conn = Connection.getConnection();
             String sql = "SELECT * FROM users";
@@ -105,11 +184,11 @@ public class UserController implements Serializable {
                 User u = new User(
                         rs.getInt("user_id"),
                         rs.getString("user_name"),
-                        rs.getString("user_hash_pass")
+                        rs.getString("user_hash_pass"),
+                        rs.getDouble("user_balance")
                 );
                 users.add(u);
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

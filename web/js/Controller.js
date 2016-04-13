@@ -17,7 +17,7 @@ app.factory("login", ['$http', function ($http) {
         var serviceBase = 'api/v1/login/';
         var obj = {};
         obj.isLoggedIn = function () {
-            return $http.get(serviceBase + 'show');
+            return $http.get(serviceBase + 'getLoggedIn');
         };
         obj.doLogin = function() {
             return $http.get(serviceBase + 'doLogin');
@@ -31,19 +31,14 @@ app.factory("login", ['$http', function ($http) {
         return obj;
     }]);
 
-
-
-
-
-
 app.factory("services", ['$http', function ($http) {
         var serviceBase = 'api/v1/newGame/';
         var obj = {};
         obj.newGame = function (username) {
-            return $http.get(serviceBase + 'startNewGame?username' + username);
+            return $http.get(serviceBase + 'startNewGame?username=' + username);
         };
-        obj.newHand = function () {
-            return $http.get(serviceBase + 'startNewHand');
+        obj.newHand = function (username) {
+            return $http.get(serviceBase + 'startNewHand?username=' + username);
         };
         obj.getPlayerHand = function () {
             return $http.get(serviceBase + 'getPlayerHand');
@@ -66,8 +61,8 @@ app.factory("services", ['$http', function ($http) {
         obj.getOptions = function () {
             return $http.get(serviceBase + 'returnOptions');
         };
-        obj.processGame = function () {
-            return $http.get(serviceBase + 'processGame');
+        obj.processGame = function (username) {
+            return $http.get(serviceBase + 'processGame?username=' + username);
         };
         obj.getBalance = function () {
             return $http.get(serviceBase + 'getPlayerBalance');
@@ -106,6 +101,7 @@ app.controller('homeCtrl', function ($scope, $http, $location, services, login) 
     
     $scope.currentPath = $location.path();
     $scope.hasTried = false;
+    $scope.loggedInUsername = "";
     
     $scope.startNewGame = function (username) {
         services.newGame(username).then(function (data) {
@@ -131,19 +127,23 @@ app.controller('homeCtrl', function ($scope, $http, $location, services, login) 
         login.loginWithParams(username, password).then(function(data) {
             console.log(data.data);
             $scope.loggedInSuccess = data.data.loggedIn;
-            
+
             if($scope.loggedInSuccess === true) {
                 $scope.isLoggedIn = true;
             } else {
                 $scope.isLoggedIn = false;
             }
+            $scope.checkIfLoggedIn();
         });
     };
-    
-    login.isLoggedIn().then(function(data) {
+    $scope.checkIfLoggedIn = function() {
+        login.isLoggedIn().then(function(data) {
         $scope.isLoggedIn = data.data.loggedIn;
-        console.log($scope.isLoggedIn);
-    });
+        $scope.loggedInUsername = data.data.username;
+    });  
+    };
+
+$scope.checkIfLoggedIn();
     
 
     
@@ -273,8 +273,9 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
         });
     };
     $scope.processGame = function () {
-        services.processGame().then(function (data) {
+        services.processGame($scope.loggedInUsername).then(function (data) {
             $scope.gameWinner = data.data;
+            console.log($scope.gameWinner);
 
         });
     };
@@ -337,18 +338,21 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
     //
 
     $scope.newHand = function () {
-        services.newHand().then(function () {
+        services.newHand($scope.loggedInUsername).then(function () {
             $scope.refreshGame();
             $scope.refreshPlayer();
             $scope.refreshDealer();
         });
     };
+    
+    $scope.checkIfLoggedIn = function() {
+        login.isLoggedIn().then(function(data) {
+        $scope.isLoggedIn = data.data.loggedIn;
+        $scope.loggedInUsername = data.data.username;
+    });  
+    };
 
-    login.isLoggedIn().then(function (data) {
-        console.log(data);
-        $scope.loggedIn = data.data.loggedIn;
-        console.log($scope.loggedIn);
-    });
+$scope.checkIfLoggedIn();
 
     $scope.refreshGame();
     $scope.refreshPlayer();

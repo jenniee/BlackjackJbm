@@ -24,14 +24,15 @@ public class User implements Serializable{
     private int user_id;
     private String user_name;
     private String user_hash_pass;
-    private int user_balance;
+    private double user_balance;
     private Boolean user_active;
     private int user_failed_log_attempts;
 
-    public User(int user_id, String user_name, String user_hash_pass) {
+    public User(int user_id, String user_name, String user_hash_pass, Double user_balance) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_hash_pass = user_hash_pass;
+        this.user_balance = user_balance;
     }
 
     public int getUser_id() {
@@ -58,11 +59,11 @@ public class User implements Serializable{
         this.user_hash_pass = user_hash_pass;
     }
 
-    public int getUser_balance() {
+    public double getUser_balance() {
         return user_balance;
     }
 
-    public void setUser_balance(int user_balance) {
+    public void setUser_balance(double user_balance) {
         this.user_balance = user_balance;
     }
 
