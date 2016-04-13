@@ -291,16 +291,17 @@ app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider, $locationProvider) {
         $routeProvider.when('/', {
             title: 'Home',
-            templateUrl: 'home.html',
+            templateUrl: 'home.xhtml',
             controller: 'homeCtrl'
-        }).when('/game', {
+        })
+        .when('/game', {
             title: 'Welcome to Blackjack',
-            templateUrl: 'game.html',
+            templateUrl: 'game.xhtml',
             controller: 'gameCtrl'
         })
-                .otherwise({
-                    redirectTo: '/'
-                });
+        .otherwise({
+            redirectTo: '/'
+        });
         if (window.history && window.history.pushState) {
 
             $locationProvider.html5Mode(false);
