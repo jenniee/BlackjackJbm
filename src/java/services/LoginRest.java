@@ -10,11 +10,15 @@ import database.UserController;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import static javax.ws.rs.client.Entity.json;
 import javax.ws.rs.core.Response;
+import org.json.JSONArray;
 
 
 
@@ -43,6 +47,25 @@ public class LoginRest implements Serializable {
     @Produces("application/json")
     public Response getLoggedIn() {
         return Response.ok("{ \"loggedIn\":  " + user.getLoggedIn() +  ", \"username\": " + "\"" + user.getUsername() + "\"" + " }").build();
+    }
+    
+    @GET
+    @Path("/getUserBalance")
+    @Produces("application/json")
+    public Response getUserBalance(@QueryParam("username") String username) {
+        UserController userControl = new UserController();
+        Double retDouble = userControl.returnUsersBalance(username);
+        return Response.ok("{ \"balance\":  " + retDouble +  "}").build();
+    }
+    
+    @GET
+    @Path("/getUserParams")
+    @Produces("application/json")
+    public Response getUserParams(@QueryParam("username") String username) {
+        UserController userControl = new UserController();
+        JSONArray json = new JSONArray(userControl.getPlayerMeta(username));
+        System.out.println("LoginControl user: " + json);
+        return Response.ok("{ \"meta\":  " + json + " }").build();
     }
     
     @GET

@@ -25,6 +25,18 @@ public class UserMeta {
     public int hands_won;
     public int blackjacks;
 
+    public UserMeta(int meta_id, int user_id, int total_bet, int total_won, int total_hands, int hands_won, int blackjacks) {
+        this.meta_id = meta_id;
+        this.user_id = user_id;
+        this.total_bet = total_bet;
+        this.total_won = total_won;
+        this.total_hands = total_hands;
+        this.hands_won = hands_won;
+        this.blackjacks = blackjacks;
+    }
+    
+    
+
     public int getMeta_id() {
         return meta_id;
     }
@@ -86,4 +98,7 @@ public class UserMeta {
                 "\", \"total_won\" : \"" + won + "\", \"total_hands\" : \"" + hands + "\", \"hands_won\" : \"" +
                 hands_won + "\", \"blackjacks\" ; \"" + blackjacks + "\" }";
     }
+    
+    
+    
 }

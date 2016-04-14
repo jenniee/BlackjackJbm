@@ -24,6 +24,7 @@ import java.sql.*;
 public class UserController implements Serializable {
 
     private List<User> users;
+    private List<UserMeta> meta;
 
     public UserController() {
         updateUsersFromDatabase();
@@ -117,6 +118,7 @@ public class UserController implements Serializable {
         }
     }
     
+    
         public void setBalance(double balance, String username) {
         java.sql.Connection conn;
         this.updateUsersFromDatabase();
@@ -168,6 +170,38 @@ public class UserController implements Serializable {
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List getPlayerMeta(String username) {
+        meta = new ArrayList<>();
+        java.sql.Connection conn;
+        int playerId = this.returnUserIdFromDb(username);
+        System.out.println("Getting meta with ID: " + username);
+        this.updateUsersFromDatabase();
+        try {
+            conn = Connection.getConnection();
+            String sql = "SELECT * FROM users_meta WHERE user_id = " + playerId;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                UserMeta u = new UserMeta(
+                        rs.getInt("meta_id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("total_bet"),
+                        rs.getInt("total_won"),
+                        rs.getInt("total_hands"),
+                        rs.getInt("hands_won"),
+                        rs.getInt("blackjacks")
+                );
+                meta.add(u);
+            }
+            System.out.println("metais: " + meta);
+            return meta;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return meta;
         }
     }
 

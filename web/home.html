@@ -1,7 +1,7 @@
 <div class="container">
     <!-- DONT NEED HEADER AND FOOTER BECAUSE THIS PAGE IS RENDERED THROUGH INDEX.HTML AND ANGULAR ROUTE -->
     <div class="main-logo"></div>
-    {{loggedInSuccess}}
+
     <div class="vertical-center" ng-if="!isLoggedIn">
         <div class="loginPage" ng-click="bryner = !bryner">
                 <uib-tabset active="active" justified="true">
@@ -27,6 +27,8 @@
 
                     <uib-tab index="1" heading="Login" active="tab.active" disable="tab.disabled">
                         <h2 class="text-center">Login</h2>
+                        <h3 class="dodger text-center" ng-if="loggedInSuccess">Success!</h3>
+                        <h3 class="dodger text-center" ng-if="!loggedInSuccess && hasTried === true">Please try again!</h3>
                         <form>
                             <h4>Username:</h4>
                             <input ng-model="usernamelog" type="text" class="form-control"/>
@@ -42,9 +44,21 @@
 
         </div>
     </div>
-    <section class="homePage" ng-if="isLoggedIn">
+    <section class="homePage text-center" ng-if="isLoggedIn">
+        
+        <h1>{{loggedInUsername}}</h1>
+        
+        <div class="">
+            <h4>Balance: {{userLoginBalance.balance}}</h4>
+            <h4>Total Credits Won: {{userParams.meta[0].total_won}}</h4>
+            <h4>Total Credits Bet: {{userParams.meta[0].total_bet}}</h4>
+            <h4>Total Hands: {{userParams.meta[0].total_hands}}</h4>
+            <h4>Hands Won: {{userParams.meta[0].hands_won}}</h4>
+            <h4>Blackjacks: {{userParams.meta[0].blackjacks}}</h4>
+        </div>
+        
         <button class="startGame" ng-click="startNewGame(loggedInUsername)" >Start new Game</button>
-        <button class="startGame" ng-click="deleteAccount(loggedInUsername)" >DeleteAccount and Logout</button>
+        <button class="startGame" ng-click="deleteAccount(loggedInUsername)" >DeleteAccount(unreversable)</button>
     </section>
 </div>
 

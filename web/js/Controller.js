@@ -19,17 +19,23 @@ app.factory("login", ['$http', function ($http) {
         obj.isLoggedIn = function () {
             return $http.get(serviceBase + 'getLoggedIn');
         };
-        obj.doLogin = function() {
+        obj.doLogin = function () {
             return $http.get(serviceBase + 'doLogin');
         };
-        obj.registerNewUser = function(username, password) {
-            return $http.get(serviceBase + 'registerNewUser?username=' + username + '&password=' + password );
+        obj.registerNewUser = function (username, password) {
+            return $http.get(serviceBase + 'registerNewUser?username=' + username + '&password=' + password);
         };
-        obj.loginWithParams = function(username, password) {
-            return $http.get(serviceBase + 'loginWithParams?username=' + username + '&password=' + password );
+        obj.loginWithParams = function (username, password) {
+            return $http.get(serviceBase + 'loginWithParams?username=' + username + '&password=' + password);
         };
-        obj.deleteAccount = function(username, password) {
+        obj.deleteAccount = function (username, password) {
             return $http.get(serviceBase + 'deleteAccount?username=' + username);
+        };
+        obj.getUserParams = function (username) {
+            return $http.get(serviceBase + 'getUserParams?username=' + username);
+        };
+        obj.getUserBalance = function (username) {
+            return $http.get(serviceBase + 'getUserBalance?username=' + username);
         };
         return obj;
     }]);
@@ -104,44 +110,45 @@ app.filter('lengthObj', function () {
 });
 
 app.controller('homeCtrl', function ($scope, $http, $location, services, login) {
-    
+
     $scope.currentPath = $location.path();
     $scope.hasTried = false;
     $scope.loggedInUsername = "";
-    
+
     $scope.startNewGame = function (username) {
         services.newGame(username).then(function (data) {
             $location.path("/game");
         });
     };
-    
-    $scope.doLogin = function() {
-        login.doLogin().then(function(data) {
+
+    $scope.doLogin = function () {
+        login.doLogin().then(function (data) {
             console.log(data.data);
         });
     };
-    
-    $scope.deleteAccount = function() {
-        login.deleteAccount($scope.loggedInUsername).then(function(data) {
+
+    $scope.deleteAccount = function () {
+        login.deleteAccount($scope.loggedInUsername).then(function (data) {
             console.log(data.data);
             $location.path("/home");
         });
     };
-    
-    $scope.registerNewUser = function(username, password) {
-        login.registerNewUser(username, password).then(function(data) {
+
+    $scope.registerNewUser = function (username, password) {
+        login.registerNewUser(username, password).then(function (data) {
             console.log(data.data);
             $scope.hasTried = true;
             $scope.registerUserSuccess = data.data.registered;
         });
     };
-    
-    $scope.loginWithParams = function(username, password) {
-        login.loginWithParams(username, password).then(function(data) {
+
+    $scope.loginWithParams = function (username, password) {
+        login.loginWithParams(username, password).then(function (data) {
             console.log(data.data);
+            $scope.hasTried = true;
             $scope.loggedInSuccess = data.data.loggedIn;
 
-            if($scope.loggedInSuccess === true) {
+            if ($scope.loggedInSuccess === true) {
                 $scope.isLoggedIn = true;
             } else {
                 $scope.isLoggedIn = false;
@@ -149,17 +156,34 @@ app.controller('homeCtrl', function ($scope, $http, $location, services, login) 
             $scope.checkIfLoggedIn();
         });
     };
-    $scope.checkIfLoggedIn = function() {
-        login.isLoggedIn().then(function(data) {
-        $scope.isLoggedIn = data.data.loggedIn;
-        $scope.loggedInUsername = data.data.username;
-    });  
+    $scope.checkIfLoggedIn = function () {
+        login.isLoggedIn().then(function (data) {
+            $scope.isLoggedIn = data.data.loggedIn;
+            $scope.loggedInUsername = data.data.username;
+            $scope.getUserParams();
+            $scope.getUserBalance();
+        });
     };
 
-$scope.checkIfLoggedIn();
+    $scope.getUserParams = function () {
+        login.getUserParams($scope.loggedInUsername).then(function (data) {
+            $scope.userParams = data.data;
+        });
+    };
     
+    $scope.getUserBalance = function () {
+        login.getUserBalance($scope.loggedInUsername).then(function (data) {
+            $scope.userLoginBalance = data.data;
+            console.log(data);
+        });
+    };
 
-    
+    $scope.checkIfLoggedIn();
+    $scope.getUserParams();
+    $scope.getUserBalance();
+
+
+
 });
 app.controller('gameCtrl', function ($scope, $location, $window, services, login) {
 
@@ -231,7 +255,7 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
             $scope.getPlayerBet();
             $scope.getBalance();
             $scope.refreshDealer();
-        });         
+        });
     };
     $scope.playerStand = function () {
         services.playerStand().then(function () {
@@ -290,12 +314,12 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
             $scope.gameWinner = data.data;
             console.log($scope.gameWinner);
             console.log($scope.gameWinner.handcheck[2].message);
-            if($scope.gameWinner.handcheck[2].message === "true") {
-                services.setBalance($scope.loggedInUsername).then(function() {
+            if ($scope.gameWinner.handcheck[2].message === "true") {
+                services.setBalance($scope.loggedInUsername).then(function () {
                     console.log("balance has been set");
                 });
             } else {
-                 console.log("balance has not been set");
+                console.log("balance has not been set");
             }
             $scope.getPlayerBet();
         });
@@ -310,12 +334,12 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
     };
     $scope.getPlayerBet = function () {
         services.getPlayerBet().then(function (data) {
-            if($scope.doWhat === "newhand" && $scope.balance < 1) {
+            if ($scope.doWhat === "newhand" && $scope.balance < 1) {
                 $scope.betAmount = $scope.balance;
             } else {
-            $scope.betAmount = data.data.bet;
+                $scope.betAmount = data.data.bet;
             }
-              
+
         });
     };
     $scope.addToBet = function (input) {
@@ -365,15 +389,15 @@ app.controller('gameCtrl', function ($scope, $location, $window, services, login
             $scope.refreshDealer();
         });
     };
-    
-    $scope.checkIfLoggedIn = function() {
-        login.isLoggedIn().then(function(data) {
-        $scope.isLoggedIn = data.data.loggedIn;
-        $scope.loggedInUsername = data.data.username;
-    });  
+
+    $scope.checkIfLoggedIn = function () {
+        login.isLoggedIn().then(function (data) {
+            $scope.isLoggedIn = data.data.loggedIn;
+            $scope.loggedInUsername = data.data.username;
+        });
     };
 
-$scope.checkIfLoggedIn();
+    $scope.checkIfLoggedIn();
 
     $scope.refreshGame();
     $scope.refreshPlayer();
@@ -387,14 +411,14 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'home.html',
             controller: 'homeCtrl'
         })
-        .when('/game', {
-            title: 'Welcome to Blackjack',
-            templateUrl: 'game.html',
-            controller: 'gameCtrl'
-        })
-        .otherwise({
-            redirectTo: '/'
-        });
+                .when('/game', {
+                    title: 'Welcome to Blackjack',
+                    templateUrl: 'game.html',
+                    controller: 'gameCtrl'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
         if (window.history && window.history.pushState) {
 
             $locationProvider.html5Mode(false);
