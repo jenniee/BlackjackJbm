@@ -19,13 +19,13 @@ public class UserMeta {
      */
     public int meta_id;
     public int user_id;
-    public int total_bet;
-    public int total_won;
+    public double total_bet;
+    public double total_won;
     public int total_hands;
     public int hands_won;
     public int blackjacks;
 
-    public UserMeta(int meta_id, int user_id, int total_bet, int total_won, int total_hands, int hands_won, int blackjacks) {
+    public UserMeta(int meta_id, int user_id, double total_bet, double total_won, int total_hands, int hands_won, int blackjacks) {
         this.meta_id = meta_id;
         this.user_id = user_id;
         this.total_bet = total_bet;
@@ -53,19 +53,19 @@ public class UserMeta {
         this.user_id = user_id;
     }
 
-    public int getTotal_bet() {
+    public double getTotal_bet() {
         return total_bet;
     }
 
-    public void setTotal_bet(int total_bet) {
+    public void setTotal_bet(double total_bet) {
         this.total_bet = total_bet;
     }
 
-    public int getTotal_won() {
+    public double getTotal_won() {
         return total_won;
     }
 
-    public void setTotal_won(int total_won) {
+    public void setTotal_won(double total_won) {
         this.total_won = total_won;
     }
 

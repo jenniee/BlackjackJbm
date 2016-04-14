@@ -189,8 +189,8 @@ public class UserController implements Serializable {
                 UserMeta u = new UserMeta(
                         rs.getInt("meta_id"),
                         rs.getInt("user_id"),
-                        rs.getInt("total_bet"),
-                        rs.getInt("total_won"),
+                        rs.getDouble("total_bet"),
+                        rs.getDouble("total_won"),
                         rs.getInt("total_hands"),
                         rs.getInt("hands_won"),
                         rs.getInt("blackjacks")
