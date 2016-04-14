@@ -1,6 +1,8 @@
 package services;
 import database.Game;
 import database.UserController;
+import database.UserMeta;
+import database.UserMetaController;
 import game.*;
 
 import java.io.Serializable;
@@ -87,6 +89,7 @@ public class NewGame implements Serializable {
     public String startNewHand(@QueryParam("username") String username) {
         
         UserController userControl = new UserController();
+        UserMetaController userMeta = new UserMetaController();
 
         List ddeck = control.getFinaldeck();
 
@@ -125,6 +128,8 @@ public class NewGame implements Serializable {
                 }
                 control.removeBalance(newBet);
                 userControl.removeFromBalance(newBet, username);
+                userMeta.addToTotalBet(username, newBet);
+                userMeta.addToTotalHands(username);
             } else {
                 control.setPlayerBet(0.0);
             }

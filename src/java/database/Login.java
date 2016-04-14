@@ -84,7 +84,10 @@ public class Login implements Serializable{
             ResultSet newId = pstmt.getGeneratedKeys();
             if (newId.next()) {
                 checker = newId.getInt(1);
-                if(checker > 0) {
+                if(checker > 0) {   
+                    PreparedStatement pstmt2 = conn.prepareStatement("INSERT INTO users_meta (user_id) VALUES (?)");
+                    pstmt2.setInt(1, checker);
+                    pstmt2.executeUpdate();              
                     return true;
                 }
             } else {

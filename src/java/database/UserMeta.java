@@ -34,6 +34,10 @@ public class UserMeta {
         this.hands_won = hands_won;
         this.blackjacks = blackjacks;
     }
+
+    public UserMeta() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 
