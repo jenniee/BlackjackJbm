@@ -14,13 +14,24 @@ import java.util.List;
  */
 public class Suit {
 
+    /**
+     *
+     */
     public String suitName;
     
+    /**
+     *
+     * @param inSuitName
+     */
     public Suit(String inSuitName)
     {
         this.suitName = inSuitName;
     }
     
+    /**
+     *
+     * @return
+     */
     public List buildSuits() {
         List<Card> cards = new ArrayList<>();
         for(int i = 0; i <= 9; i++) {

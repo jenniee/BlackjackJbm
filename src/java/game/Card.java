@@ -14,9 +14,21 @@ import java.util.List;
  */
 public class Card {
     
+    /**
+     *
+     */
     public String value;
+
+    /**
+     *
+     */
     public String suit;
     
+    /**
+     *
+     * @param inValue
+     * @param inSuit
+     */
     public Card(String inValue, String inSuit)
     {
         this.value = inValue;
@@ -55,6 +67,10 @@ public class Card {
         this.suit = suit;
     } 
     
+    /**
+     *
+     * @return
+     */
     public List returnCard() {
         List<Card> card = new ArrayList<>();
         card.add(new Card(getValue(), getSuit()));

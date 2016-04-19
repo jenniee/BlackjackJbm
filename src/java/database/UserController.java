@@ -26,18 +26,34 @@ public class UserController implements Serializable {
     private List<User> users;
     private List<UserMeta> meta;
 
+    /**
+     *
+     */
     public UserController() {
         updateUsersFromDatabase();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<User> getUsers() {
         return users;
     }
 
+    /**
+     *
+     * @param users
+     */
     public void setUsers(List<User> users) {
         this.users = users;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public String getUsernameById(int id) {
         this.updateUsersFromDatabase();
         for (User u : users) {
@@ -48,6 +64,11 @@ public class UserController implements Serializable {
         return null;
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     public int returnUserIdFromDb(String username) {
         this.updateUsersFromDatabase();
         for (User u : users) {
@@ -59,6 +80,11 @@ public class UserController implements Serializable {
         return 0;
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     public double returnUsersBalance(String username) {
         this.updateUsersFromDatabase();
         for (User u : users) {
@@ -70,6 +96,11 @@ public class UserController implements Serializable {
         return 0;
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     public String getUsernameByUsername(String username) {
         this.updateUsersFromDatabase();
         for (User u : users) {
@@ -80,6 +111,11 @@ public class UserController implements Serializable {
         return null;
     }
     
+    /**
+     *
+     * @param id
+     * @return
+     */
     public int getUsernameByIdCheck(int id) {
         this.updateUsersFromDatabase();
         for (User u : users) {
@@ -90,6 +126,11 @@ public class UserController implements Serializable {
         return 0;
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     public Boolean getUsernameByUsernameTrue(String username) {
         this.updateUsersFromDatabase();
         for(User u : users) {
@@ -100,6 +141,11 @@ public class UserController implements Serializable {
         return false;
     }
     
+    /**
+     *
+     * @param bet
+     * @param username
+     */
     public void removeFromBalance(double bet, String username) {
         java.sql.Connection conn;
         this.updateUsersFromDatabase();
@@ -118,8 +164,12 @@ public class UserController implements Serializable {
         }
     }
     
-    
-        public void setBalance(double balance, String username) {
+    /**
+     *
+     * @param balance
+     * @param username
+     */
+    public void setBalance(double balance, String username) {
         java.sql.Connection conn;
         this.updateUsersFromDatabase();
         try {
@@ -137,6 +187,11 @@ public class UserController implements Serializable {
         }
     }
     
+    /**
+     *
+     * @param bet
+     * @param username
+     */
     public void addToBalance(double bet, String username) {
         java.sql.Connection conn;
         this.updateUsersFromDatabase();
@@ -155,7 +210,10 @@ public class UserController implements Serializable {
         }
     }
     
-    
+    /**
+     *
+     * @param username
+     */
     public void deleteUserFromDatabase(String username) {
         java.sql.Connection conn;
         this.updateUsersFromDatabase();
@@ -173,6 +231,11 @@ public class UserController implements Serializable {
         }
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     public List getPlayerMeta(String username) {
         meta = new ArrayList<>();
         java.sql.Connection conn;

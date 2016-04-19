@@ -22,10 +22,16 @@ public class HandTest {
     private Hand player;
     private List deck;
     
+    /**
+     *
+     */
     public HandTest() {
         
     }
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
         playerDummy = new ArrayList<>();
@@ -34,6 +40,9 @@ public class HandTest {
         System.out.print("-- Testing ");
     }
     
+    /**
+     *
+     */
     @After
     public void tearDown() {
         System.out.println("----------------------------------------\n\n");

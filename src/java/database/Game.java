@@ -34,62 +34,121 @@ public class Game {
     private double user_starting_balance;
     private double user_bet_amount;
 
+    /**
+     *
+     * @return
+     */
     public String getGame_id() {
         return game_id;
     }
 
+    /**
+     *
+     * @param game_id
+     */
     public void setGame_id(String game_id) {
         this.game_id = game_id;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getUser_id() {
         return user_id;
     }
 
+    /**
+     *
+     * @param user_id
+     */
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStart_time() {
         return start_time;
     }
 
+    /**
+     *
+     * @param start_time
+     */
     public void setStart_time(String start_time) {
         this.start_time = start_time;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEnd_time() {
         return end_time;
     }
 
+    /**
+     *
+     * @param end_time
+     */
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNumber_decks() {
         return number_decks;
     }
 
+    /**
+     *
+     * @param number_decks
+     */
     public void setNumber_decks(int number_decks) {
         this.number_decks = number_decks;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getUser_starting_balance() {
         return user_starting_balance;
     }
 
+    /**
+     *
+     * @param user_starting_balance
+     */
     public void setUser_starting_balance(double user_starting_balance) {
         this.user_starting_balance = user_starting_balance;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getUser_bet_amount() {
         return user_bet_amount;
     }
 
+    /**
+     *
+     * @param user_bet_amount
+     */
     public void setUser_bet_amount(double user_bet_amount) {
         this.user_bet_amount = user_bet_amount;
     }
     
+    /**
+     *
+     */
     public void insertNewGame() {
         
         java.sql.Connection conn;
@@ -116,6 +175,17 @@ public class Game {
         
     }
     
+    /**
+     *
+     * @param g_id
+     * @param u_id
+     * @param start
+     * @param end
+     * @param decks
+     * @param starting_balance
+     * @param bet
+     * @return
+     */
     public String returnGameJson(int g_id, int u_id, String start, String end, int decks, int starting_balance, int bet){
         return "{ \"game_id\" : \"" + g_id + "\", \"user_id\" : \"" + u_id + "\", \"start_time\" : \"" + start +
                 "\", \"end_time\" : \"" + end + "\", \"number_decks\" : \"" + decks +

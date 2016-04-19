@@ -23,6 +23,11 @@ public class UserMetaController implements Serializable {
     
     UserController user = new UserController();
     
+    /**
+     *
+     * @param username
+     * @param bet
+     */
     public void addToTotalCredits(String username, Double bet) {
         UserController userControl = new UserController();
                 java.sql.Connection conn;
@@ -45,7 +50,12 @@ public class UserMetaController implements Serializable {
         
     }
     
-        public void addToTotalBet(String username, Double bet) {
+    /**
+     *
+     * @param username
+     * @param bet
+     */
+    public void addToTotalBet(String username, Double bet) {
         UserController userControl = new UserController();
                 java.sql.Connection conn;
         int playerId = userControl.returnUserIdFromDb(username);
@@ -67,6 +77,10 @@ public class UserMetaController implements Serializable {
         
     }
         
+    /**
+     *
+     * @param username
+     */
     public void addToTotalHands(String username) {
         UserController userControl = new UserController();
                 java.sql.Connection conn;

@@ -14,17 +14,40 @@ import java.util.List;
  */
 public class Deck {
     
+    /**
+     *
+     */
     public List<Card> clubs = new ArrayList<>();
+
+    /**
+     *
+     */
     public List<Card> diamonds = new ArrayList<>();
+
+    /**
+     *
+     */
     public List<Card> hearts = new ArrayList<>();
+
+    /**
+     *
+     */
     public List<Card> spades = new ArrayList<>();
     
+    /**
+     *
+     */
     public Deck() {
         this.clubs = new Suit("Clubs").buildSuits();
         this.diamonds = new Suit("Diamonds").buildSuits();
         this.hearts = new Suit("Hearts").buildSuits();
         this.spades = new Suit("Spades").buildSuits();
     }
+
+    /**
+     *
+     * @return
+     */
     public List getNewDeck() {
         List<Card> deck = new ArrayList<>();
         deck.addAll(clubs);

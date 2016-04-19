@@ -10,13 +10,10 @@ import database.UserController;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArray;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import static javax.ws.rs.client.Entity.json;
 import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 
@@ -34,6 +31,10 @@ public class LoginRest implements Serializable {
     @Inject
     Login user;
     
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/doLogin")
     @Produces("application/json")
@@ -42,6 +43,10 @@ public class LoginRest implements Serializable {
         return Response.ok("{ \"loggedIn\":  " + true +  "}").build();
     }
     
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getLoggedIn")
     @Produces("application/json")
@@ -49,6 +54,11 @@ public class LoginRest implements Serializable {
         return Response.ok("{ \"loggedIn\":  " + user.getLoggedIn() +  ", \"username\": " + "\"" + user.getUsername() + "\"" + " }").build();
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/getUserBalance")
     @Produces("application/json")
@@ -58,6 +68,11 @@ public class LoginRest implements Serializable {
         return Response.ok("{ \"balance\":  " + retDouble +  "}").build();
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/getUserParams")
     @Produces("application/json")
@@ -68,6 +83,11 @@ public class LoginRest implements Serializable {
         return Response.ok("{ \"meta\":  " + json + " }").build();
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/deleteAccount")
     @Produces("application/json")
@@ -78,6 +98,12 @@ public class LoginRest implements Serializable {
         return Response.ok("{ \"diddelete\":  " + user.getLoggedIn() + "}").build();
     }
     
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @GET
     @Path("/registerNewUser")
     @Produces("application/json")
@@ -91,6 +117,12 @@ public class LoginRest implements Serializable {
         }
     }
     
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @GET
     @Path("/loginWithParams")
     @Produces("application/json")
@@ -108,6 +140,10 @@ public class LoginRest implements Serializable {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/show")
     @Produces("application/json")

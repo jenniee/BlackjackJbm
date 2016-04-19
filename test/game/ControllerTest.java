@@ -22,17 +22,29 @@ import static org.junit.Assert.*;
 public class ControllerTest {
     Controller instance;
     
+    /**
+     *
+     */
     public ControllerTest() {
     }
     
+    /**
+     *
+     */
     @BeforeClass
     public static void setUpClass() {
     }
     
+    /**
+     *
+     */
     @AfterClass
     public static void tearDownClass() {
     }
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
         instance = new Controller();
@@ -40,6 +52,9 @@ public class ControllerTest {
         System.out.print("-- Testing ");
     }
     
+    /**
+     *
+     */
     @After
     public void tearDown() {
         System.out.println("----------------------------------------\n\n");
@@ -175,7 +190,7 @@ public class ControllerTest {
         System.out.println("Controller.getBalance() --");
         System.out.println("----------------------------------------");
 
-        double initialBalance = 1000; // New instances start with 1000 chips
+        double initialBalance = 0; // New instances start with 0 chips
         double addChips = 1000;
         instance.setBalance(addChips);
         double expResult = addChips + initialBalance; // Add initial chip amount
@@ -195,7 +210,7 @@ public class ControllerTest {
         System.out.println("Controller.setBalance() --");
         System.out.println("----------------------------------------");
         
-        double initialBalance = 1000; // New instances start with 1000 chips
+        double initialBalance = 0; // New instances start with 0 chips
         double oldBalance = instance.getBalance();
         double addChips = 1000;
         instance.setBalance(addChips);
@@ -217,7 +232,7 @@ public class ControllerTest {
         System.out.println("Controller.removeBalance() --");
         System.out.println("----------------------------------------");
 
-        double initialBalance = 1000; // New instances start with 1000 chips
+        double initialBalance = 0; // New instances start with 0 chips
         double oldBalance = instance.getBalance();
         double chips = 500;
         instance.removeBalance(chips);
@@ -240,6 +255,8 @@ public class ControllerTest {
         System.out.println("----------------------------------------");
         
         double betAmount = 500;
+        instance.setBalance(1000.0);
+        instance.setOption("newhand");
         instance.setPlayerBet(betAmount);
         double expResult = betAmount;
         double result = instance.getPlayerBet();
@@ -259,6 +276,8 @@ public class ControllerTest {
         System.out.println("----------------------------------------");
         
         double oldPlayerBet = instance.getPlayerBet();
+        instance.setBalance(1000.0);
+        instance.setOption("newhand");
         double betAmount = 500;
         instance.setPlayerBet(betAmount);
         double expResult = betAmount;

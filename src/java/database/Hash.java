@@ -5,11 +5,9 @@
  */
 package database;
 
-import static com.sun.javafx.font.FontResource.SALT;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -18,8 +16,16 @@ import java.util.logging.Logger;
  */
 public class Hash {
 
+    /**
+     *
+     */
     public final static String salt = "THISISArandomSTRINGofCHARACTERSusedTOsaltTHEpasswords";
     
+    /**
+     *
+     * @param password
+     * @return
+     */
     public static String hash(String password){
         try {
             String salted = password + salt;

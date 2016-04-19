@@ -18,14 +18,31 @@ import static org.junit.Assert.*;
  */
 public class CardTest {
     
+    /**
+     *
+     */
     public Card instance;
+
+    /**
+     *
+     */
     public String card;
+
+    /**
+     *
+     */
     public String suit;
     
+    /**
+     *
+     */
     public CardTest() {
         
     }
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
         card = "J";
@@ -34,6 +51,9 @@ public class CardTest {
         System.out.print("-- Testing ");
     }
 
+    /**
+     *
+     */
     @After
     public void tearDown() {
         System.out.println("----------------------------------------\n\n");

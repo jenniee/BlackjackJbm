@@ -1,7 +1,6 @@
 package services;
 import database.Game;
 import database.UserController;
-import database.UserMeta;
 import database.UserMetaController;
 import game.*;
 
@@ -29,13 +28,21 @@ public class NewGame implements Serializable {
     @Inject
     Controller control;
     
-
+    /**
+     *
+     * @return
+     */
     @GET
     @Produces("application/json")
     public String newGame() {
         return "{\"response\": \"ok\"}";
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/startNewGame")
     @Produces("application/json")
@@ -83,6 +90,11 @@ public class NewGame implements Serializable {
         return "{\"response\": \"ok\"}";
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/startNewHand")
     @Produces("application/json")
@@ -143,6 +155,10 @@ public class NewGame implements Serializable {
         return "{\"response\": \"ok\"}";
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getPlayerTotal")
     @Produces("application/json")
@@ -154,6 +170,10 @@ public class NewGame implements Serializable {
         return returnString;
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getDealerTotal")
     @Produces("application/json")
@@ -171,6 +191,10 @@ public class NewGame implements Serializable {
         return returnString;
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getPlayerHand")
     @Produces("application/json")
@@ -178,6 +202,10 @@ public class NewGame implements Serializable {
         return control.getPlayer().toString();
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getDealerHand")
     @Produces("application/json")
@@ -201,6 +229,10 @@ public class NewGame implements Serializable {
         return control.getDealer().toString();
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getPlayerBalance")
     @Produces("application/json")
@@ -209,6 +241,10 @@ public class NewGame implements Serializable {
         return returnString;
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getPlayerBet")
     @Produces("application/json")
@@ -217,6 +253,10 @@ public class NewGame implements Serializable {
         return returnString;
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/returnOptions")
     @Produces("application/json")
@@ -225,6 +265,10 @@ public class NewGame implements Serializable {
         return returnString;
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getPreviousWin")
     @Produces("application/json")
@@ -233,6 +277,11 @@ public class NewGame implements Serializable {
         return returnString;
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     @GET
     @Path("/setBetAmount")
     @Produces("application/json")
@@ -242,6 +291,10 @@ public class NewGame implements Serializable {
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/getPlayerCard")
     @Produces("application/json")
@@ -251,6 +304,11 @@ public class NewGame implements Serializable {
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/processGame")
     @Produces("application/json")
@@ -285,6 +343,12 @@ public class NewGame implements Serializable {
         return control.processGame(playerTotal, dealerTotal, checkOption, hasPaidOut,
                 playerBet, playerHandCount, dealerHandCount);
     }
+
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GET
     @Path("/setBalance")
     @Produces("application/json")
@@ -296,6 +360,10 @@ public class NewGame implements Serializable {
          return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/playerDoubleDown")
     @Produces("application/json")
@@ -340,6 +408,10 @@ public class NewGame implements Serializable {
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/playerStand")
     @Produces("application/json")
@@ -367,6 +439,10 @@ public class NewGame implements Serializable {
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/resetChips")
     @Produces("application/json")

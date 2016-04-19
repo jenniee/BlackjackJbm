@@ -5,7 +5,6 @@
  */
 package game;
 
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,18 +15,31 @@ import static org.junit.Assert.*;
  * @author bryner
  */
 public class SuitTest {
+
+    /**
+     *
+     */
     public Suit suit;
     
+    /**
+     *
+     */
     public SuitTest() {
         
     }
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
         suit = new Suit("Clubs");
         System.out.print("-- Testing ");
     }
     
+    /**
+     *
+     */
     @After
     public void tearDown() {
         System.out.println("----------------------------------------\n\n");

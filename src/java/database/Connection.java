@@ -16,7 +16,12 @@ import java.util.logging.Logger;
  */
 public class Connection {
 
-   public static java.sql.Connection getConnection() throws SQLException {
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static java.sql.Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String host = "localhost";

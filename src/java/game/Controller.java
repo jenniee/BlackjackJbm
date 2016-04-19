@@ -39,10 +39,18 @@ public class Controller implements Serializable {
 
     private Boolean showDealerTotal = false;
 
+    /**
+     *
+     */
     public Controller() {
 
     }
 
+    /**
+     *
+     * @param name
+     * @param balance
+     */
     public Controller(String name, Double balance) {
 
         List playerdummy = new ArrayList<>();
@@ -68,54 +76,106 @@ public class Controller implements Serializable {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public Boolean getShowDealerTotal() {
         return showDealerTotal;
     }
 
+    /**
+     *
+     * @param showDealerTotal
+     */
     public void setShowDealerTotal(Boolean showDealerTotal) {
         this.showDealerTotal = showDealerTotal;
     }
 
+    /**
+     *
+     * @return
+     */
     public List getFinaldeck() {
         return finaldeck;
     }
 
+    /**
+     *
+     * @param finaldeck
+     */
     public void setFinaldeck(List finaldeck) {
         this.finaldeck = finaldeck;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMinBet() {
         return minBet;
     }
 
+    /**
+     *
+     * @param minBet
+     */
     public void setMinBet(double minBet) {
         this.minBet = minBet;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMaxBet() {
         return maxBet;
     }
 
+    /**
+     *
+     * @param maxBet
+     */
     public void setMaxBet(double maxBet) {
         this.maxBet = maxBet;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getBalance() {
         return balance;
     }
 
+    /**
+     *
+     * @param balance
+     */
     public void setBalance(double balance) {
         this.balance += balance;
     }
 
+    /**
+     *
+     * @param balance
+     */
     public void removeBalance(double balance) {
         this.balance -= balance;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getPlayerBet() {
         return playerBet;
     }
 
+    /**
+     *
+     * @param playerBet
+     */
     public void setPlayerBet(double playerBet) {
         if ("newhand".equals(this.getOption()) || "newhandDont".equalsIgnoreCase(this.getOption())) {
             if (playerBet > this.getBalance()) {
@@ -127,58 +187,114 @@ public class Controller implements Serializable {
         }
     }
     
+    /**
+     *
+     */
     public void doubleDownPlayerBet() {
         this.playerBet = this.playerBet + this.playerBet;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getPreviousWin() {
         return previousWin;
     }
 
+    /**
+     *
+     * @param previousWin
+     */
     public void setPreviousWin(double previousWin) {
         this.previousWin = previousWin;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOption() {
         return option;
     }
 
+    /**
+     *
+     * @param option
+     */
     public void setOption(String option) {
         this.option = option;
     }
 
+    /**
+     *
+     * @return
+     */
     public Boolean getHasPaidOut() {
         return hasPaidOut;
     }
 
+    /**
+     *
+     * @param hasPaidOut
+     */
     public void setHasPaidOut(Boolean hasPaidOut) {
         this.hasPaidOut = hasPaidOut;
     }
 
+    /**
+     *
+     * @return
+     */
     public Hand getPlayer() {
         return player;
     }
 
+    /**
+     *
+     * @param player
+     */
     public void setPlayer(Hand player) {
         this.player = player;
     }
 
+    /**
+     *
+     * @return
+     */
     public Hand getDealer() {
         return dealer;
     }
 
+    /**
+     *
+     * @param dealer
+     */
     public void setDealer(Hand dealer) {
         this.dealer = dealer;
     }
 
+    /**
+     *
+     * @return
+     */
     public Boolean getHasBalanceBeenSet() {
         return hasBalanceBeenSet;
     }
 
+    /**
+     *
+     * @param hasBalanceBeenSet
+     */
     public void setHasBalanceBeenSet(Boolean hasBalanceBeenSet) {
         this.hasBalanceBeenSet = hasBalanceBeenSet;
     }
 
+    /**
+     *
+     * @param in
+     * @return
+     */
     public Boolean checkCardAce(Card in) {
         Boolean returnVal = false;
         if (isNumber(in.value)) {
@@ -192,6 +308,9 @@ public class Controller implements Serializable {
         return returnVal;
     }
 
+    /**
+     *
+     */
     public void getNewDeck() {
         Deck newdeck = new Deck();
         List gamedeck = newdeck.getNewDeck();
@@ -200,6 +319,12 @@ public class Controller implements Serializable {
         this.setFinaldeck(gamedeck);
     }
 
+    /**
+     *
+     * @param hand
+     * @param showTotal
+     * @return
+     */
     public double returnTotal(List hand, Boolean showTotal) {
 
         int handtotal = 0;
@@ -228,6 +353,17 @@ public class Controller implements Serializable {
         return handtotal;
     }
 
+    /**
+     *
+     * @param playerTotalInput
+     * @param dealerTotalInput
+     * @param checkOptionInput
+     * @param hasPaidOutInput
+     * @param playerBetInput
+     * @param playerHandCountInput
+     * @param dealerHandCountInput
+     * @return
+     */
     public String processGame(Double playerTotalInput, double dealerTotalInput, String checkOptionInput, Boolean hasPaidOutInput,
             Double playerBetInput, Double playerHandCountInput, Double dealerHandCountInput) {
 
@@ -325,6 +461,10 @@ public class Controller implements Serializable {
         return finalRet;
     }
 
+    /**
+     *
+     * @param player
+     */
     public void takeCardFromDeck(Boolean player) {
         if (player) {
             this.player.takeCardFromDeck(this.finaldeck, 1);
@@ -333,6 +473,9 @@ public class Controller implements Serializable {
         }
     }
 
+    /**
+     *
+     */
     public void resetChips() {
         this.setBalance(defaultChips);
     }

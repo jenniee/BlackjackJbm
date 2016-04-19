@@ -15,14 +15,31 @@ import java.util.List;
  */
 public class Hand {
 
+    /**
+     *
+     */
     public String name;
+
+    /**
+     *
+     */
     public List hand;
 
+    /**
+     *
+     * @param inName
+     * @param inHand
+     */
     public Hand(String inName, List inHand) {
         this.name = inName;
         this.hand = inHand;
     }
 
+    /**
+     *
+     * @param player
+     * @return
+     */
     public List returnHandArray(Boolean player) {
         Iterator handz = this.hand.iterator();
         List handreturn = new ArrayList<>();
@@ -44,6 +61,13 @@ public class Hand {
     /*
     *The tester page has the right way to handle this.
     */
+
+    /**
+     *
+     * @param inDeck
+     * @param inAmount
+     */
+    
     public void takeCardFromDeck(List inDeck, int inAmount) {
         
         Object returnDeck = inDeck.get(0);
