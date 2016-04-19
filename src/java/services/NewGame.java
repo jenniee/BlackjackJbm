@@ -308,6 +308,12 @@ public class NewGame implements Serializable {
     public String getPlayerCard() {
         List ddeck = control.getFinaldeck();
         control.getPlayer().takeCardFromDeck(ddeck, 1);
+ 
+        double handChecker = control.returnTotal(control.getPlayer().returnHandArray(Boolean.TRUE), Boolean.TRUE);
+        
+        if(handChecker == 21) {
+            this.playerStand();
+        }
         return "{" + "\"" + "msg" + "\":" + "\"" + "ok" + "\"" + "}";
     }
 
