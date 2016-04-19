@@ -15,15 +15,23 @@ toDo:
 
 ### Dependencies
 
-toDo:
+Json-20160212.jar:
+https://mega.nz/#!98VxRYZB
+
+MySQL JDBC Driver
+
+MySql Shell or Management Tool
 
 ### Installation
 
-toDo:
+Run the CreateDb.sql file inside of the WebPages/SQL folder.
+Change the Connection details in the Connection.java class located in the package: database.
+Run the tests.
+Run the Application.
 
 ### Usage
 
-toDo:
+Free Use, If you would like to contribute please initialize a pull request.
 
 ### API
 
