@@ -159,6 +159,7 @@ public class UserController implements Serializable {
             if (newId.next()) {
                 
             }
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -182,6 +183,7 @@ public class UserController implements Serializable {
             if (newId.next()) {
                 
             }
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -205,6 +207,7 @@ public class UserController implements Serializable {
             if (newId.next()) {
                 
             }
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -226,6 +229,7 @@ public class UserController implements Serializable {
             if (newId.next()) {
                 
             }
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -260,7 +264,8 @@ public class UserController implements Serializable {
                 );
                 meta.add(u);
             }
-            System.out.println("metais: " + meta);
+
+            conn.close();
             return meta;
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -286,6 +291,7 @@ public class UserController implements Serializable {
                 );
                 users.add(u);
             }
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

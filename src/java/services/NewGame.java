@@ -142,6 +142,13 @@ public class NewGame implements Serializable {
                 userControl.removeFromBalance(newBet, username);
                 userMeta.addToTotalBet(username, newBet);
                 userMeta.addToTotalHands(username);
+                
+                //this needs to be ran at the end of the hand not at the start of a new one.
+                if(control.getPreviousWin() > 0) {
+                    userMeta.addToTotalHandsWon(username);
+                    userMeta.addToTotalWon(username, control.getPreviousWin());
+                }
+                
             } else {
                 control.setPlayerBet(0.0);
             }
