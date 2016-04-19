@@ -217,8 +217,6 @@ ALTER TABLE `users_meta`
 --
 -- Constraints for table `games_meta`
 --
-ALTER TABLE `games_meta`
-  ADD CONSTRAINT `fk_game_table_id` FOREIGN KEY (`game_id`) REFERENCES `blackjack`.`games` (`game_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
