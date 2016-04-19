@@ -94,6 +94,30 @@ button {
     height: 75px;
 }
 
+.betInfo h5 {
+    color: white!important;
+}
+
+.startGame {
+    font-size: 24px;
+    margin-top: 25px;
+}
+
+.loggedInInfo h4, p{
+    color: white;
+    font-size: 32px;
+    padding-top: 25px;
+}
+
+.moveRight {
+    margin-left: 25px;
+}
+.userLoggedName {
+    text-decoration: underline;
+    font-size: 45px;
+    
+}
+
 .inline {display: inline-block;}
 
 .bet {

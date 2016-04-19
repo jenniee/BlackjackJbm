@@ -46,9 +46,9 @@
     </div>
     <section class="homePage text-center" ng-if="isLoggedIn">
         
-        <h1>{{loggedInUsername}}</h1>
+        <h1 class="userLoggedName">{{loggedInUsername}}</h1>
         
-        <div class="">
+        <div class="loggedInInfo">
             <h4>Balance: {{userLoginBalance.balance}}</h4>
             <h4>Total Credits Won: {{userParams.meta[0].total_won}}</h4>
             <h4>Total Credits Bet: {{userParams.meta[0].total_bet}}</h4>
@@ -57,8 +57,8 @@
 <!--            <h4>Blackjacks: {{userParams.meta[0].blackjacks}}</h4>-->
         </div>
         
-        <button class="startGame" ng-click="startNewGame(loggedInUsername)" >Start new Game</button>
-        <button class="startGame" ng-click="deleteAccount(loggedInUsername)" >DeleteAccount(unreversable)</button>
+        <button class="startGame btn btn-primary" ng-click="startNewGame(loggedInUsername)" >Start new Game</button>
+        <button class="startGame btn btn-primary moveRight" ng-click="deleteAccount(loggedInUsername)" >DeleteAccount(unreversable)</button>
     </section>
 </div>
 
